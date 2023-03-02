@@ -1,0 +1,11 @@
+{
+  "name": "cs555-webapp-backend",
+  "version": "1.0.0",
+  "description": "This is the package.json file for the backend for our CS555 web project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "WOMEN IN STEM",
+  "license": "ISC"
+}
