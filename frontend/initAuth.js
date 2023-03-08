@@ -32,7 +32,7 @@ const initAuth = () => {
                 process.env.COOKIE_SECRET_PREVIOUS,
             ],
             httpOnly: true,
-            maxAge: TWELVE_DAYS_IN_MS,
+            maxAge: 43200, // twelve hours
             overwrite: true,
             path: "/",
             sameSite: "lax",

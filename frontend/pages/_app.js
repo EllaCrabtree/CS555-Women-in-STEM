@@ -1,8 +1,10 @@
 import "@/styles/globals.css";
-import initAuth from "../initAuth"; // the module you created above
-
-initAuth();
+import { AuthUserProvider } from "@context/authUserContext"; // the module you created above
 
 export default function App({ Component, pageProps }) {
-    return <Component {...pageProps} />;
+    return (
+        <AuthUserProvider>
+            <Component {...pageProps} />
+        </AuthUserProvider>
+    );
 }
