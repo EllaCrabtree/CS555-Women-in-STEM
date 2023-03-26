@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import firebase from "@lib/firebase";
+import {
+    signInWithEmailAndPassword as fbSignInWithEmailAndPassword,
+    createUserWithEmailAndPassword as fbCreateUserWithEmailAndPassword,
+    signOut as fbSignOut,
+    onAuthStateChanged,
+} from "firebase/auth";
+
+import { auth } from "@lib/firebase";
 
 const formatAuthUser = (user) => ({
     uid: user.uid,
@@ -31,17 +38,15 @@ export default function useFirebaseAuth() {
     };
 
     const signInWithEmailAndPassword = (email, password) =>
-        firebase.auth().signInWithEmailAndPassword(email, password);
+        fbSignInWithEmailAndPassword(auth, email, password);
 
     const createUserWithEmailAndPassword = (email, password) =>
-        firebase.auth().createUserWithEmailAndPassword(email, password);
+        fbCreateUserWithEmailAndPassword(auth, email, password);
 
-    const signOut = () => firebase.auth().signOut().then(clear);
+    const signOut = () => fbSignOut().then(clear);
 
     useEffect(() => {
-        const unsubscribe = firebase
-            .auth()
-            .onAuthStateChanged(authStateChanged);
+        const unsubscribe = onAuthStateChanged(auth, authStateChanged);
         return () => unsubscribe();
     }, []);
 
