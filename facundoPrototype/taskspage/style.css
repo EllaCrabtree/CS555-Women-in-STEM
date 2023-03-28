@@ -103,6 +103,7 @@ body {
 
 .searchbar input {
   border-style: none;
+  width: 75%;
 }
 
 .content-container h1 {

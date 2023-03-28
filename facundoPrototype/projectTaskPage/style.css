@@ -83,29 +83,6 @@ body {
   margin-top: 20px;
 }
 
-.searchbar {
-  background: #ffffff;
-  box-shadow: 0px 10px 20px rgba(47, 53, 66, 0.1);
-  border-radius: 100px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 5px;
-  display: flex;
-  flex-direction: row;
-}
-
-.searchbar img {
-  height: 20px;
-  width: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.searchbar input {
-  border-style: none;
-  width: 75%;
-}
-
 .content-container h1 {
   margin-top: 20px;
   font-family: "Lato";
@@ -114,6 +91,78 @@ body {
   font-size: 20px;
   line-height: 24px;
   /* identical to box height */
+  color: #2f3542;
+}
+
+#project-name {
+  text-align: center;
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 38px;
+  /* identical to box height */
+  letter-spacing: 0.3px;
+  /* grayscale / black */
+  color: #252733;
+}
+
+.project-main-name {
+  margin-bottom: 6px;
+  text-align: center;
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 20px;
+  /* or 143% */
+  letter-spacing: 0.3px;
+  color: #000000;
+}
+
+.project-subinfo {
+  /* Regular/14px */
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  /* or 143% */
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: #9fa2b4;
+}
+
+.boxtab-container {
+  margin-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+.boxtab-icon {
+  width: 28px;
+  height: 28px;
+  margin-left: 10px;
+}
+
+.boxtab-arrow-container {
+  display: flex;
+  align-items: row-reverse;
+  margin-left: auto;
+}
+
+.boxtab-label {
+  margin-left: 15px;
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+
   color: #2f3542;
 }
 
@@ -139,33 +188,4 @@ body {
   margin-top: 5px;
   height: 30px;
   width: 30px;
-}
-
-.messages-btn {
-  width: 121px;
-  height: 40px;
-
-  background: #3742fa;
-  box-shadow: 0px 10px 20px rgba(55, 66, 250, 0.4);
-  border-radius: 100px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.messages-btn p {
-  margin-top: 12px;
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 14px;
-  color: #ffffff;
-}
-
-#mesimg {
-  height: 20px;
-  width: 20px;
-  margin-top: 10px
 }

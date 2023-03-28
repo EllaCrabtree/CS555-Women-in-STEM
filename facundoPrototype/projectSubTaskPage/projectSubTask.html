@@ -29,14 +29,38 @@
       </div>
 
       <main class="content-container">
-        <div class="searchbar">
-          <img src="../.ASSETS/search.png" />
-          <input type="text" placeholder="Search for Conversations..." />
+        <h1 id="project-name">Default Subtask Name</h1>
+        <h2 class="project-main-name" id="project-manager-name">
+          Creator: Default Creator Name
+        </h2>
+        <p class="project-subinfo">
+          Due Date: 1/01/2023 | Creation Date: 1/01/2023
+        </p>
+        <div class="boxtab-container" id="photos-container">
+          <img
+            class="boxtab-icon"
+            id="photos-icon"
+            src="../.ASSETS/photos.png"
+          />
+          <p class="boxtab-label" id="photoslabel">Photos: 0</p>
+          <div class="boxtab-arrow-container">
+            <img class="boxtab-arrow" src="../.ASSETS/chevron_left.png" />
+          </div>
         </div>
-        <h1>All Messages</h1>
-        <div>No messages available.</div>
+        <div class="boxtab-container" id="membercount-container">
+          <img
+            class="boxtab-icon"
+            id="membercount-icon"
+            src="../.ASSETS/people.png"
+          />
+          <p class="boxtab-label" id="membercount">People: 0</p>
+          <div class="boxtab-arrow-container">
+            <img class="boxtab-arrow" src="../.ASSETS/chevron_left.png" />
+          </div>
+        </div>
       </main>
     </div>
+
     <div class="bottom-tab">
       <div class="project-btn">
         <a href="../homePage/home.html"
@@ -49,12 +73,13 @@
         /></a>
       </div>
       <div class="messages-btn">
-        <img src="../.ASSETS/chat.png" id="mesimg" alt="messages-icon" />
-        <p>Messages</p>
+        <a href="../messagespage/messages.html"
+          ><img src="../.ASSETS/chat.png" id="mesimg" alt="messages-icon"
+        /></a>
       </div>
       <div class="profile-btn">
-        <a href="../profilepage/profile.html"
-          ><img src="../.ASSETS/profile.png" id="profimg" alt="setting-icon"
+        <a href="../profilepage/profile.html">
+          <img src="../.ASSETS/profile.png" id="profimg" alt="setting-icon"
         /></a>
       </div>
     </div>
