@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
- 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible"
-          content="IE=edge">
-    <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,
+                   initial-scale=1.0"
+    />
     <title>Amaterasu</title>
-    <link rel="stylesheet"
-          href="style.css">
-</head>
- 
-<body>
- 
-    </header>
-
-    <div class="main">
- 
-        <div class="main-container">
-            <div class="main-header">
-                <h1 class="application-Name">Amaterasu</h1>
-            </div>
-            <div class="main-body">
-                <h1 class="login-title">Login to Amaterasu</h1>
-                <h1 class="login-desc">Enter your email and password below</h1>
-                <h3 class="t-op">EMAIL</h3>
-                <div class="email-input">
-                    <input type="text"
-                           placeholder="Email Address">
-                </div>
-                <h3 class="t-op">PASSWORD</h3>
-                <div class="password-input">
-                    <input type="text"
-                           placeholder="Password">
-                </div>
-                <button class="login">Login</button>
-                <h3 class="signup-desc">Don't have an account?</h3>
-                <h3 class="signup">Sign up</h3>
-            </div>
-        </div>
-    </div>
- 
+    <link rel="icon" type="image/png" href="../.ASSETS/logo.png" />
+    <link rel="stylesheet" href="style.css" />
     <script src="./index.js"></script>
-</body>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="main-container">
+        <div class="main-header">
+          <img id="logo" src="../.ASSETS/logo.png" alt="Amaterasu Logo" />
+          <h1 class="application-Name">Amaterasu</h1>
+        </div>
+        <div class="main-body">
+          <h1 class="login-title">Login to Amaterasu</h1>
+          <h1 class="login-desc">Enter your email and password below</h1>
+          <form class="login-form">
+            <h3 class="t-op">EMAIL</h3>
+            <div class="input-div" id="email-input">
+              <input type="text" placeholder="Email Address" />
+            </div>
+            <h3 class="t-op">PASSWORD</h3>
+            <div class="input-div" id="password-input">
+              <input type="text" placeholder="Password" />
+            </div>
+            <button class="login">Login</button>
+          </form>
+          <div id="signup-container">
+            <h3 class="signup-desc">Don't have an account?</h3>
+            <h3 class="signup">Sign up</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

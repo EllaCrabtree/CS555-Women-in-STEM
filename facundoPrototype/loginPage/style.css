@@ -1,6 +1,7 @@
-@import url(
-"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
- 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Mulish");
+
+/* MAIN PAGE AND BODY */
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +12,7 @@
   --background-color1: #fafaff;
   --background-color2: #ffffff;
   --background-color3: #ededed;
-  --background-color4: #1E1E1E;
+  --background-color4: #363740;
   --primary-color: #4b49ac;
   --secondary-color: #0c007d;
   --Border-color: #3f0097;
@@ -23,44 +24,6 @@ body {
   max-width: 100%;
   overflow-x: hidden;
 }
- 
-.email-input,
-.message,
-.logosec {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.password-input,
-.message,
-.logosec {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
- 
-.email-input input {
-  width: 250px;
-  height: 42px;
-  border-radius: 5px 5px 5px 5px;
-  background-color: var(--background-color3);
-  padding: 0 15px;
-  font-size: 15px;
-  outline: none;
-  border: none;
-  margin-bottom: 10px;
-}
-.password-input input {
-  width: 250px;
-  height: 42px;
-  border-radius: 5px 5px 5px 5px;
-  background-color: var(--background-color3);
-  padding: 0 15px;
-  font-size: 15px;
-  outline: none;
-  border: none;
-  margin-bottom: 25px;
-}
 
 .main {
   height: calc(100vh - 70px);
@@ -69,102 +32,170 @@ body {
   overflow-x: hidden;
   padding: 40px 30px 30px 30px;
 }
- 
-.main::-webkit-scrollbar-thumb {
-  background-image:
-        linear-gradient(to bottom, rgb(0, 0, 85), rgb(0, 0, 50));
-}
-.main::-webkit-scrollbar {
-  width: 5px;
-}
-.main::-webkit-scrollbar-track {
-  background-color: #9e9e9eb2;
-}
 
 .main-container {
+  flex-direction: column;
   min-height: 380px;
   max-width: 582px;
   margin: 70px auto 0px auto;
   background-color: #ffffff;
-  border-radius: 30px;
-  box-shadow: 3px 3px 10px rgb(188, 188, 188);
+  border-radius: 7px;
   padding: 0px 20px 20px 20px;
 }
-.main-header {
-  height: 80px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
-  overflow-x: auto;
-}
-.login {
-  height: 35px;
-  width: 250px;
-  border-radius: 8px;
-  background-color: #5500cb;
-  color: white;
-  font-size: 15px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  margin-bottom: 5px;
-}
-.login:hover {
-  cursor: pointer;
-  background-color: #7b36dc;
-  /*color: #a4a4a4*/
-}
- 
-.application-Name {
-  font-size: 19px;
-  font-weight: 600;
-  color: #A4A6B3;
+
+/* LOGIN HEADER */
+#logo {
+  display: block;
+  padding-top: 30px;
   margin-left: auto;
   margin-right: auto;
 }
-.login-title {
-  font-size: 30px;
-  font-weight: 600;
-  color: #252733;
-  text-align: center;
-}
-.login-desc {
+
+.application-Name {
+  padding-top: 10px;
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 700;
   font-size: 19px;
-  font-weight: 450;
-  color: #9FA2B4;
+  line-height: 24px;
+  /* identical to box height */
   text-align: center;
-  margin-bottom: 30px;
+  letter-spacing: 0.4px;
+  /* sidebar / gray */
+  color: #a4a6b3;
+  opacity: 0.7;
 }
 
 .main-body {
-  max-width: 582px;
-  overflow-x: auto;
-  padding: 20px;
+  padding-top: 30px;
 }
-.t-op {
+
+.login-title {
+  /* Bold/24px */
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 700;
   font-size: 18px;
-  letter-spacing: 0px;
-  padding: 0 130px;
-  color: #9FA2B4;
-  font-weight: 500;
+  line-height: 30px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  /* grayscale / black */
+  color: #252733;
 }
+
+.login-desc {
+  /* Regular/14px */
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+  text-align: center;
+  letter-spacing: 0.3px;
+  /* grayscale / gray */
+  color: #9fa2b4;
+}
+
+/* LOGIN FORM */
+.login-form {
+  padding-top: 10px;
+}
+
+.t-op {
+  padding-top: 20px;
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  /* grayscale / gray */
+
+  color: #9fa2b4;
+}
+
+.input-div {
+  margin-top: 4px;
+  /* grayscale / extra light */
+  background: #fcfdfe;
+  /* grayscale / gray lightest */
+  border: 1px solid #f0f1f7;
+  border-radius: 8px;
+}
+
+.input-div input {
+  display: block;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 10px;
+  width: 90%;
+  border: none;
+  /* Regular/14px */
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+  letter-spacing: 0.3px;
+  /* grayscale / gray dark */
+  color: #4b506d;
+  opacity: 0.4;
+}
+
+.login {
+  height: 48px;
+  margin-top: 20px;
+  display: block;
+  padding: 10px;
+  width: 100%;
+  /* Main/Blue */
+  background: #3751ff;
+  /* button / accent default */
+  box-shadow: 0px 4px 12px rgba(55, 81, 255, 0.24);
+  border-radius: 8px;
+  /* SemiBold/14px */
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+  text-align: center;
+  letter-spacing: 0.2px;
+  /* grayscale / white */
+  color: #ffffff;
+}
+
+#signup-container {
+  padding-top: 25px;
+}
+
 .signup-desc {
-  font-size: 12px;
-  font-weight: 450;
-  letter-spacing: 0px;
-  padding: 0 130px;
+  /* Regular/14px */
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
   text-align: center;
+  letter-spacing: 0.3px;
+  /* grayscale / gray */
+  color: #9fa2b4;
 }
+
 .signup {
-  font-size: 12px;
-  font-weight: 450;
-  letter-spacing: 0px;
-  padding: 0 130px;
+  /* SemiBold/14px */
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
   text-align: center;
-  color: #3751FF;
-  cursor: pointer;
+  letter-spacing: 0.2px;
+  color: #3751ff;
 }
