@@ -6,7 +6,7 @@ import {
     onAuthStateChanged,
 } from "firebase/auth";
 
-import { auth } from "@lib/firebase";
+import { auth } from "@libs/firebase";
 
 const formatAuthUser = (user) => ({
     uid: user.uid,
@@ -28,7 +28,6 @@ export default function useFirebaseAuth() {
         var formattedUser = formatAuthUser(authState);
 
         setAuthUser(formattedUser);
-
         setLoading(false);
     };
 
@@ -43,7 +42,7 @@ export default function useFirebaseAuth() {
     const createUserWithEmailAndPassword = (email, password) =>
         fbCreateUserWithEmailAndPassword(auth, email, password);
 
-    const signOut = () => fbSignOut().then(clear);
+    const signOut = () => fbSignOut(auth).then(clear);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, authStateChanged);
