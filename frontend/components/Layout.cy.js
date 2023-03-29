@@ -1,9 +1,9 @@
 import React from 'react'
-import Dashboard from './dashboard'
+import Layout from './Layout'
 
-describe('<Dashboard />', () => {
+describe('<Layout />', () => {
   it('renders', () => {
     // see: https://on.cypress.io/mounting-react
-    cy.mount(<Dashboard />)
+    cy.mount(<Layout />)
   })
 })
