@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import Router from "next/router";
-import Image from "next/image";
 
 import { useAuth } from "@contexts/authUserContext";
 import styles from "@styles/Dashboard.module.css";
