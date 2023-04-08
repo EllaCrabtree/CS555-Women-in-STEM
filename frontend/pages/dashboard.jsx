@@ -15,10 +15,13 @@ export default function Dashboard() {
     }, [auth]);
 
     return (
-        <main className={styles.main}>
-            <p>
-                Welcome to the Amaterasu Dashboard. There is nothing here yet.
-            </p>
+        <main className={styles.hello}>
+            <div class="searchbar">
+                <img src="/search.png" alt="searchpic" />
+                <input type="text" placeholder="Search for Projects..." />
+            </div>
+            <h1>All Projects</h1>
+            <div>No projects available.</div>
             <button onClick={() => auth.signOut()}>Sign out</button>
         </main>
     );
