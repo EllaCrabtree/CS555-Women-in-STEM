@@ -6,7 +6,7 @@ import {
     onAuthStateChanged,
 } from "firebase/auth";
 
-import { auth } from "@libs/firebase";
+import { auth } from "@libs/firebase.mjs";
 
 const formatAuthUser = (user) => ({
     uid: user.uid,

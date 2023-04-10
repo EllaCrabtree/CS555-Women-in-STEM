@@ -7,7 +7,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "cypress": "cypress open"
+        "cypress": "cypress open",
+        "seed": "node ./scripts/seed.mjs"
     },
     "dependencies": {
         "@next/font": "13.1.6",
@@ -20,6 +21,7 @@
     },
     "devDependencies": {
         "@playwright/test": "^1.32.1",
-        "cypress": "^12.9.0"
+        "cypress": "^12.9.0",
+        "dotenv": "^16.0.3"
     }
 }
