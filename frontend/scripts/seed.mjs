@@ -2,9 +2,9 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc ,setDoc} from "firebase/firestore";
 import * as dotenv from "dotenv";
 const firebaseCredentials = {
-    apiKey: "AIzaSyBVR4Tjj1BeLIZaJxQYYyJZpjPySIfqlX4",
-    authDomain: "women-in-stem-cs555.firebaseapp.com",
-    projectId:"women-in-stem-cs555",
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
 };
 const initDb = async () => {
     const app = initializeApp(firebaseCredentials);
