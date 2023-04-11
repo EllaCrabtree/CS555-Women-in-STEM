@@ -1,15 +1,14 @@
 import React from "react";
+import styles from "./Layout.module.css";
 
 const Layout = ({ children }) => {
     return (
-        <div className="main">
-            <div className="main-container">
-                <div className="main-header">
-                    <img id="logo" src="/logo.png" alt="Amaterasu Logo" />
-                    <h1 className="application-Name">Amaterasu</h1>
-                </div>
-                {children}
+        <div className={styles.main}>
+            <div className="main-header">
+                <img id="logo" src="/logo.png" alt="Amaterasu Logo" />
+                <h1 className="application-Name">Amaterasu</h1>
             </div>
+            {children}
         </div>
     );
 };

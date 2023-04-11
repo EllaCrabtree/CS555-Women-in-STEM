@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import Router from "next/router";
+// import { Image } from "next/image";
 
 import { useAuth } from "@contexts/authUserContext";
+import Header from "@components/Header";
+import Footer from "@components/Footer";
 import styles from "@styles/Dashboard.module.css";
 
 export default function Dashboard() {
@@ -15,14 +18,18 @@ export default function Dashboard() {
     }, [auth]);
 
     return (
-        <main className={styles.hello}>
-            <div class="searchbar">
-                <img src="/search.png" alt="searchpic" />
-                <input type="text" placeholder="Search for Projects..." />
-            </div>
-            <h1>All Projects</h1>
-            <div>No projects available.</div>
-            <button onClick={() => auth.signOut()}>Sign out</button>
-        </main>
+        <>
+            <Header type="header" />
+            <main className={styles.hello}>
+                <div class="searchbar">
+                    <img src="/search.png" alt="searchpic" />
+                    <input type="text" placeholder="Search for Projects..." />
+                </div>
+                <h1>All Projects</h1>
+                <div>No projects available.</div>
+                <button onClick={() => auth.signOut()}>Sign out</button>
+            </main>
+            <Footer type="footer" />
+        </>
     );
 }
