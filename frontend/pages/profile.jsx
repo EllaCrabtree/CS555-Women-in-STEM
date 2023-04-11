@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@contexts/authUserContext";
-import {
-    query,
-    doc,
-    collection,
-    addDoc,
-    getDoc,
-    setDoc,
-    where,
-} from "firebase/firestore";
+import { doc, collection, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@libs/firebase.mjs";
 
 const Profile = () => {
@@ -28,15 +20,13 @@ const Profile = () => {
             const userDoc = await getDoc(
                 doc(collection(db, "Users"), auth.authUser.uid)
             );
-            console.log(userDoc);
-
             if (!userDoc.exists()) {
                 const defaultUserDoc = {
                     email: auth.authUser.email,
                     firstName: "",
                     lastName: "",
                 };
-                await addDoc(
+                await setDoc(
                     doc(db, "Users", auth.authUser.uid),
                     defaultUserDoc
                 );
@@ -106,7 +96,7 @@ const Profile = () => {
                     onClick={async (e) => {
                         e.preventDefault();
                         console.log(user);
-                        await setDoc(doc(collection(db, "Users"), user.uid), {
+                        await setDoc(doc(db, "Users", auth.authUser.uid), {
                             ...user,
                         });
                     }}
