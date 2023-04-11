@@ -27,9 +27,7 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 22px;
-    /* identical to box height */
     color: #2f3542;
-    /* Inside auto layout */
     flex: none;
     order: 0;
     flex-grow: 0;
@@ -43,7 +41,6 @@
     line-height: 14px;
     color: #2f3542;
     opacity: 0.5;
-    /* Inside auto layout */
     flex: none;
     order: 1;
     flex-grow: 0;

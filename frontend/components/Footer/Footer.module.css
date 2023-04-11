@@ -1,20 +1,12 @@
 .footerNav {
-    position: absolute;
-    width: 80%;
     margin-left: 10%;
     margin-right: 10%;
-    bottom: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
 }
 
-.footerNav div {
-    display: flex;
-    flex-direction: row;
-}
-
-.footerNav div img {
+.footerNav a img {
     background-color: white;
     border-radius: 30%;
     margin-top: 5px;

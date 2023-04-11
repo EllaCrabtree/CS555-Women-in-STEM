@@ -18,18 +18,17 @@ export default function Dashboard() {
     }, [auth]);
 
     return (
-        <>
+        <div className="whitePageWrapper">
             <Header type="header" />
-            <main className={styles.hello}>
+            <main className="content">
                 <div class="searchbar">
                     <img src="/search.png" alt="searchpic" />
                     <input type="text" placeholder="Search for Projects..." />
                 </div>
                 <h1>All Projects</h1>
                 <div>No projects available.</div>
-                <button onClick={() => auth.signOut()}>Sign out</button>
             </main>
             <Footer type="footer" />
-        </>
+        </div>
     );
 }

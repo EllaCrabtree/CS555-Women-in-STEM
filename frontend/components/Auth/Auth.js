@@ -77,55 +77,78 @@ export default function Auth({ type }) {
         if (event) event.preventDefault();
     };
 
+    const onEnter = (event) => {
+        if (event.key === "Enter") {
+            // Trigger the button element with a click
+            onSubmit();
+        }
+    };
+
     return (
-        <div className="main-body">
-            <h1 className="login-title">
-                {type === "login" ? "Login to" : "Sign up for"} Amaterasu
-            </h1>
-            <h2 className="login-desc">Enter your email and password below</h2>
-            {error && <p className="error">{error}</p>}
-            <p className="t-op">Email</p>
-            <div className="input-div">
-                <input
-                    type="email"
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="Email Address"
-                />
+        <div className={styles.authWrapper}>
+            <div className={styles.mainHeader}>
+                <img id={styles.logo} src="/logo.png" alt="Amaterasu Logo" />
+                <h1 className={styles.applicationName}>Amaterasu</h1>
             </div>
-            <p className="t-op">Password</p>
-            <div className="input-div">
-                <input
-                    type="password"
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="Password"
-                />
-            </div>
-            <button
-                className="login"
-                onClick={() => {
-                    onSubmit();
-                }}
-            >
-                {type === "login" ? "Login" : "Sign up"}
-            </button>
-            <div id="signup-container">
-                {type === "login" ? (
-                    <>
-                        <p className="signup-desc">
-                            Don&apos;t have an account?
-                        </p>
-                        <Link className="signup" href="/signup">
-                            Sign up
-                        </Link>
-                    </>
-                ) : (
-                    <>
-                        <p className="signup-desc">Already have an account?</p>
-                        <Link className="signup" href="/login">
-                            Login
-                        </Link>
-                    </>
-                )}
+            <div className={styles.mainBody}>
+                <h1 className={styles.loginTitle}>
+                    {type === "login" ? "Login to" : "Sign up for"} Amaterasu
+                </h1>
+                <h2 className={styles.loginDesc}>
+                    Enter your email and password below
+                </h2>
+                {error && <p className={styles.error}>{error}</p>}
+                <p className={styles.tOp}>Email</p>
+                <div className={styles.inputDiv}>
+                    <input
+                        type="email"
+                        onChange={(event) => setEmail(event.target.value)}
+                        onKeyDown={(e) => {
+                            onEnter(e);
+                        }}
+                        placeholder="Email Address"
+                    />
+                </div>
+                <p className={styles.tOp}>Password</p>
+                <div className={styles.inputDiv}>
+                    <input
+                        type="password"
+                        onChange={(event) => setPassword(event.target.value)}
+                        onKeyDown={(e) => {
+                            onEnter(e);
+                        }}
+                        placeholder="Password"
+                    />
+                </div>
+                <button
+                    className={styles.login}
+                    onClick={() => {
+                        onSubmit();
+                    }}
+                >
+                    {type === "login" ? "Login" : "Sign up"}
+                </button>
+                <div id={styles.signupContainer}>
+                    {type === "login" ? (
+                        <>
+                            <p className={styles.signupDesc}>
+                                Don&apos;t have an account?
+                            </p>
+                            <Link className={styles.signup} href="/signup">
+                                Sign up
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <p className={styles.signupDesc}>
+                                Already have an account?
+                            </p>
+                            <Link className={styles.signup} href="/login">
+                                Login
+                            </Link>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -10,27 +10,19 @@ import styles from "./Footer.module.css";
 
 export default function Auth({ type }) {
     return (
-        <div className="footerNav">
-            <div className="project-btn">
-                <a Link="/dashboard/">
-                    <img src="/home.png" id="homeimg" alt="proj-icon" />
-                </a>
-            </div>
-            <div className="tasks-btn">
-                <a Link="/tasks/">
-                    <img src="/calendar.png" id="taskimg" alt="tasks-icon" />
-                </a>
-            </div>
-            <div className="messages-btn">
-                <a Link="/messages/">
-                    <img src="/chat.png" id="mesimg" alt="messages-icon" />
-                </a>
-            </div>
-            <div className="profile-btn">
-                <a Link="/profile/">
-                    <img src="/profile.png" id="profimg" alt="setting-icon" />
-                </a>
-            </div>
+        <div className={styles.footerNav}>
+            <Link href="/dashboard/" className="project-btn">
+                <img src="/home.png" id="homeimg" alt="proj-icon" />
+            </Link>
+            <Link href="/tasks/" className="tasks-btn">
+                <img src="/calendar.png" id="taskimg" alt="tasks-icon" />
+            </Link>
+            <Link href="/messages/" className="messages-btn">
+                <img src="/chat.png" id="mesimg" alt="messages-icon" />
+            </Link>
+            <Link href="/profile/" className="profile-btn">
+                <img src="/profile.png" id="profimg" alt="setting-icon" />
+            </Link>
         </div>
     );
 }
