@@ -1,10 +1,10 @@
-// import Router from "next/router";
-import { Card, Text, Link } from "@nextui-org/react";
 import { useAuth } from "@contexts/authUserContext";
 import { useEffect, useState } from "react";
 // import Link from 'next/link';
+import { Card, Text, Link } from "@nextui-org/react";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc ,setDoc, getDocs, query, where, or} from "firebase/firestore";
 
-// import { useAuth } from "@contexts/authUserContext";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 import styles from "@styles/Dashboard.module.css";
@@ -14,6 +14,8 @@ export default function Projects() {
     const [projectData, setProjectData] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [db, setDB] = useState();
+
 
     const auth = useAuth();
     useEffect(() => {
@@ -21,45 +23,79 @@ export default function Projects() {
         //     // Router.push("/");
         // } else {
         setLoading(true);
-        try {
-            let data = [
-                {
-                    ProjectID: 1,
-                    ProjectName: "Stephanie's Project",
-                    Description: "This is a test project!",
-                    OwnerID: 123,
-                    SalesTeam: [],
-                    ConstructionTeam: [],
-                    ProjectClass: "Installation",
-                    CurrentStage: 2,
-                    NumberOfStages: 5,
-                    Tasks: []
-                },
-                {
-                    ProjectID: 2,
-                    ProjectName: "Ella's Project",
-                    Description: "This is a test project!",
-                    OwnerID: 456,
-                    SalesTeam: [],
-                    ConstructionTeam: [],
-                    ProjectClass: "Installation",
-                    CurrentStage: 2,
-                    NumberOfStages: 5,
-                    Tasks: []
+        const app = initializeApp({
+            apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
+            authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+            projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+        });
+        setDB(getFirestore(app))
+
+        if (auth.authUser) {  
+            async function getData(uuid) {
+                try {
+                    const q = query(collection(db, 'Projects'), 
+                        or(
+                            where("OwnerID", "==", uuid),
+                            where("Sales_Team", "array-contains", uuid),
+                            where("Construction_Team", "array-contains", uuid),
+                        )
+                    )
+                    const querySnapshot = await getDocs(q);
+                    let dataArray = []
+
+                    querySnapshot.forEach((doc) => {
+                        dataArray.push(doc.data())
+                    })
+                    setProjectData(dataArray)
+                } catch (error) {
+                    console.log(error)
                 }
-            ]
-            // let { data, status } = await ax.get(`http://localhost:4000/api/characters/page/${page}`)
-            setProjectData(data);
-            setLoading(false);
-        } catch (e) {
-            setError(true)
+            }
+            
+            try {
+                if (!projectData) {
+                    getData(auth.authUser.uid);
+                } else {
+                    setLoading(false);
+                }
+            } catch (e) {
+             console.log(e)   
+            }
+
+            // let data = [
+            //     {
+            //         ProjectID: 1,
+            //         ProjectName: "Stephanie's Project",
+            //         Description: "This is a test project!",
+            //         OwnerID: 123,
+            //         SalesTeam: [],
+            //         ConstructionTeam: [],
+            //         ProjectClass: "Installation",
+            //         CurrentStage: 2,
+            //         NumberOfStages: 5,
+            //         Tasks: []
+            //     },
+            //     {
+            //         ProjectID: 2,
+            //         ProjectName: "Ella's Project",
+            //         Description: "This is a test project!",
+            //         OwnerID: 456,
+            //         SalesTeam: [],
+            //         ConstructionTeam: [],
+            //         ProjectClass: "Installation",
+            //         CurrentStage: 2,
+            //         NumberOfStages: 5,
+            //         Tasks: []
+            //     }
+            // ]
         }
+        
             // }
-    }, [auth]);
+    }, [auth, projectData]);
 
     const BuildProjectCard = (project) => {
         return(
-            <li>
+            <li key={project.ProjectID}> 
                 <Link href={`/project/${project.ProjectID}`}>
                     <Card
                     isPressable
@@ -80,9 +116,9 @@ export default function Projects() {
     }
 
     if (error) {
-
+        return(<h1> Error ocurred</h1>)
     } else if (loading) {
-
+        return(<h1> Loading .... </h1>)
     } else {
 
         let cardElements = null;
