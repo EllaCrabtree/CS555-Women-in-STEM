@@ -1,0 +1,200 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Mulish");
+@import url("http://fonts.googleapis.com/css?family=Lato:400,700");
+/* MAIN PAGE AND BODY */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+}
+:root {
+	--background-color1: #fafaff;
+}
+body {
+	background-color: var(--background-color1);
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+.pageContainer {
+	margin-top: 8%;
+	margin-left: 8%;
+	margin-right: 8%;
+}
+
+.top-tab {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 2vw;
+	margin-left: 2vw;
+}
+
+.id-container {
+	display: flex;
+	flex-direction: row;
+}
+
+.profile-pic {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+
+.backbutton {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+
+.id-info {
+	margin-top: 3px;
+}
+
+#id-info-name {
+	font-family: "Lato";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 22px;
+	/* identical to box height */
+	color: #2f3542;
+	/* Inside auto layout */
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+}
+
+#id-info-role {
+	font-family: "Lato";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 14px;
+	color: #2f3542;
+	opacity: 0.5;
+	/* Inside auto layout */
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+}
+
+.content-container {
+	margin-top: 20px;
+	overflow-wrap: break-word;
+}
+
+.content-container h1 {
+	margin-top: 20px;
+	font-family: "Lato";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 24px;
+	/* identical to box height */
+	color: #2f3542;
+}
+
+.bottom-tab {
+	position: absolute;
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	bottom: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+.bottom-tab div {
+	display: flex;
+	flex-direction: row;
+}
+
+.bottom-tab div img {
+	background-color: white;
+	border-radius: 30%;
+	margin-top: 5px;
+	height: 30px;
+	width: 30px;
+}
+
+.messages-btn {
+	width: 121px;
+	height: 40px;
+
+	background: #3742fa;
+	box-shadow: 0px 10px 20px rgba(55, 66, 250, 0.4);
+	border-radius: 100px;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+.messages-btn p {
+	margin-top: 12px;
+	font-family: "Lato";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 14px;
+	color: #ffffff;
+}
+
+#mesimg {
+	height: 20px;
+	width: 20px;
+	margin-top: 10px;
+}
+
+.sendbutton {
+	background-color: #3742fa;
+	color: #ffffff;
+	border-radius: 100px;
+	width: 95vw;
+	justify-content: center;
+}
+
+.textbox {
+	border-radius: 100px;
+	width: 95vw;
+	margin-left: 2vw;
+	margin-right: 2vw;
+	justify-content: center;
+}
+
+.sender {
+	color: blue;
+	font-weight: bold;
+	margin-right: 2vw;
+	float: right;
+	clear: both;
+	overflow-wrap: break-word;
+	text-align: right;
+	word-wrap: break-word;
+	margin-top: 2vw;
+}
+
+.receiver {
+	color: black;
+	font-weight: bold;
+	clear: both;
+	float: left;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	margin-left: 2vw;
+	margin-top: 2vw;
+}
+
+.messages {
+	height: 470px;
+	width: 100vw;
+	overflow-y: scroll;
+	overflow-wrap: break-word;
+	overflow-x: hidden;
+}
