@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import Router from "next/router";
-// import { Image } from "next/image";
-
 import { useAuth } from "@contexts/authUserContext";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
@@ -27,6 +25,7 @@ export default function Dashboard() {
                 </div>
                 <h1>All Projects</h1>
                 <div>No projects available.</div>
+                <button onClick={() => auth.signOut()}>Sign out</button>
             </main>
             <Footer type="footer" />
         </div>
