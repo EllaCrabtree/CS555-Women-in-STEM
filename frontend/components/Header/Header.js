@@ -37,8 +37,6 @@ export default function Auth({ type }) {
             }
         };
         getUser();
-
-        console.log(auth.authUser);
     }, [auth.authUser]);
 
     if (!user) {

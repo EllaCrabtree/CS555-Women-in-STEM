@@ -48,6 +48,7 @@ const Profile = () => {
         <div className="whitePageWrapper">
             <main className="content">
                 <h1>Your Profile</h1>
+                <p>UUId: {auth.authUser.uid}</p>
                 <form
                     style={{
                         display: "flex",

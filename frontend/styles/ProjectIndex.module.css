@@ -1,0 +1,84 @@
+.projectName {
+  text-align: center;
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 38px;
+  /* identical to box height */
+  letter-spacing: 0.3px;
+  /* grayscale / black */
+  color: #252733;
+}
+
+.projectMainName {
+  margin-bottom: 6px;
+  text-align: center;
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 20px;
+  /* or 143% */
+  letter-spacing: 0.3px;
+  color: #000000;
+}
+
+.projectId {
+    text-align: center;
+}
+
+.projectProgress {
+    text-align: center;
+    font-size: 16px;
+}
+
+.projectSubinfo {
+  /* Regular/14px */
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  /* or 143% */
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: #9fa2b4;
+}
+
+.taskContent {
+    list-style: none;
+}
+
+.boxtabContainer {
+  margin-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+.boxtabIcon {
+  width: 28px;
+  height: 28px;
+  margin-left: 10px;
+}
+
+.boxtabArrowContainer {
+  display: flex;
+  align-items: row-reverse;
+  margin-left: auto;
+}
+
+.boxtabLabel {
+  margin-left: 15px;
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #2f3542;
+}
