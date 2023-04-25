@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Router from "next/router";
+import {Router, useRouter} from "next/router";
 import { useAuth } from "@contexts/authUserContext";
 import { doc, collection, getDoc, setDoc } from "firebase/firestore";
 import { Card, Text, Link } from "@nextui-org/react";
@@ -8,9 +8,12 @@ import Header from "@components/Header";
 import Footer from "@components/Footer";
 import styles from "@styles/createProject.module.css";
 
-export default function Createproject() {
+export default function Createtask() {
   // Check if the user isn't logged in
   // If the user isn't logged in, redirect to the home page
+  const router = useRouter();
+  const { data } = router.query;
+  const projectId = data;
   const auth = useAuth();
   const [user, setUser] = useState(null);
   let form;
@@ -45,7 +48,7 @@ export default function Createproject() {
     if (user.userType !== "Operations")
       return (
         <>
-          <h1>You can&apos;t create a project.</h1>
+          <h1>You can&apos;t create a task.</h1>
           <p>Contact an operations manager.</p>
         </>
       );
@@ -54,34 +57,10 @@ export default function Createproject() {
         <>
           <h1>Create Project</h1>
           <form className={styles.createProjectForm}>
-            <label htmlFor="projectName">Project Name</label>
-            <input type="text" name="projectName" id="projectName" />
-            <label htmlFor="projectName">Project ID</label>
-            <input type="text" name="projectId" id="projectId" />
-            <label htmlFor="customer">Customer Id</label>
-            <input type="text" name="customerId" id="customerId"/>
-            <label htmlFor="projectDescription">Project Description</label>
-            <input
-              type="text"
-              name="projectDescription"
-              id="projectDescription"
-            />
-            
-            
-            <label htmlFor="salesTeam">Sales Team Ids</label>
-            <textarea
-              name="salesTeam"
-              id="salesTeam"
-              rows="8"
-              cols="40"
-            ></textarea>
-            <label htmlFor="constructionTeam">Construction Team Ids</label>
-            <textarea
-              name="constructionTeam"
-              id="constructionTeam"
-              rows="8"
-              cols="40"
-            ></textarea>
+            <label htmlFor="taskName">Task Name</label>
+            <input type="text" name="taskName" id="taskName" />
+            <label htmlFor="taskDescription">Task Description</label>
+            <input type="text" name="taskDescription" id="taskDescription"/>
             <button
               style={{
                 marginTop: "1rem",
@@ -90,30 +69,34 @@ export default function Createproject() {
               onClick={async (e) => {
                 e.preventDefault();
                 console.log(user);
-                const projectName = document.getElementById("projectName").value;
-                const projectDescription = document.getElementById("projectDescription").value;
-                const customerIds = document.getElementById("customerId").value;
-                const projectId = document.getElementById("projectId").value;
-                const salesTeamIds = document.getElementById("salesTeam").value;
-                const constructionTeamIds = document.getElementById("constructionTeam").value;
+                //const taskName = document.getElementById('taskName').value;
+                //const taskDescription = document.getElementById('taskDescription').value;
+                const projectId="wrhtw";//test purposes
+                const taskName="TestTast";//test purposes
+                const taskDescription="Does this work?"; //purposes
                 try {
-                    let project;                  
-                    project = await setDoc(doc(db, 'Projects',projectId), {
-                    ProjectID: projectId,
-                    Project_Name: projectName,
-                    Description:projectDescription,
-                    OwnerID:customerIds,
-                    Sales_Team:salesTeamIds.split(/\s+/),
-                    Construction_Team:constructionTeamIds.split(/\s+/),
-                    Current_Stage:0,
-                    NumberOfStages:0,
-                    Tasks:[]
+                    let data,task,project ;   
+                    data = await getDoc(
+                        doc(collection(db, "Projects",projectId))
+                      );
+                    tasks=data.Tasks;
+                    numberofStages=data.NumberOfStages;
+                    task = await setDoc(doc(db,"Tasks","TestTask"), {
+                        Title:taskName,
+                        Description:taskDescription,
+                        Completion_Status:0    
+                      })               
+                    project = await updateDoc(doc(db, "Projects",projectId), {
+                    NumberOfStages:numberofStages+1,
+                    Tasks:tasks.push(taskName)
+                    
                   })
-                  let confrimation;
+                  console.log(data);
+                  console.log(task);
                   console.log(project);
                   window.alert("Project Created Successfully")
                   setTimeout(()=>{},10000);
-                  Router.push("/");
+                  Router.push("/project/"+projectId);
                 } catch (error) {
                   throw `Project failed to add to database! Message: ${error}`
                 }

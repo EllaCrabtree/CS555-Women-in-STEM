@@ -94,8 +94,6 @@ export default function Dashboard() {
       try {
         if (!projectData) {
           getData(auth.authUser.uid);
-        } else {
-          setLoading(false);
         }
       } catch (e) {
         console.log(e);
@@ -134,6 +132,16 @@ export default function Dashboard() {
   }
 
   let projects = getProjects();
+  let addProjectButton = <></>;
+  if (user.userType === "Operations") {
+    addProjectButton = <Link href="/createproject">
+      <img
+        src="/add.png"
+        className={styles.addPic}
+        alt="createprojectpic"
+      />
+    </Link>
+  }
 
   return (
     <div className="whitePageWrapper">
@@ -145,15 +153,9 @@ export default function Dashboard() {
         </div>
         <div className={styles.projectsHeader}>
           <h1>All Projects</h1>
-          <Link href="/createproject">
-            <img
-              src="/add.png"
-              className={styles.addPic}
-              alt="createprojectpic"
-            />
-          </Link>
+          {addProjectButton}
         </div>
-        <div>{projects}</div>
+        <ul className={styles.projects}>{projects}</ul>
       </main>
       <Footer type="footer" />
     </div>

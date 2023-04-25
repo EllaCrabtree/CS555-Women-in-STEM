@@ -1,6 +1,6 @@
 import { useAuth } from "@contexts/authUserContext";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { Card, Text, Link } from "@nextui-org/react";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
@@ -26,6 +26,7 @@ const Project = () => {
   const [error, setError] = useState(false);
   const [db, setDB] = useState();
   const [userData, setUserData] = useState();
+  const [addTask, setAddTask] = useState();
 
   const auth = useAuth();
 
@@ -75,16 +76,30 @@ const Project = () => {
           };
 
           // console.log(dataArray[0].Tasks)
-          const q2 = query(
-            collection(db, "Tasks"),
-            where("TaskID", "in", dataArray[0].Tasks)
-          );
+          let q2;
+          try {
+            q2 = query(
+              collection(db, "Tasks"),
+              where("TaskID", "in", dataArray[0].Tasks)
+            )
+          } catch (e) {
+            console.log("no tasks found")
+          }
 
-          const querySnapshot2 = await getDocs(q2);
+
+          let querySnapshot2;
           let taskDataArray = [];
-          querySnapshot2.forEach((doc) => {
-            taskDataArray.push(doc.data());
-          });
+          try {
+            querySnapshot2 = await getDocs(q2);
+            querySnapshot2.forEach((doc) => {
+              taskDataArray.push(doc.data());
+            });
+          }
+          catch (e) {
+            console.log("no tasks found cont.")
+          }
+          console.log(taskDataArray)
+
 
           project.Tasks = taskDataArray;
 
@@ -109,10 +124,29 @@ const Project = () => {
           // console.log(taskDataArray)
 
           setProjectData(project);
+
+          if (dataArray[0].Construction_Team.includes(auth.authUser.uid)) {
+            setAddTask(
+              <Link href="/createTask" onClick={async () => {
+                router.push({
+                  pathname: '/createTask',
+                  query: { data: projectId },
+                });
+              }}>
+                <img
+                  src="/add.png"
+                  className={styles.addPic}
+                  alt="createprojectpic"
+                />
+              </Link>
+            )
+          } else setAddTask(<></>);
         } catch (error) {
           console.log(error);
         }
       }
+
+
 
       try {
         if (!projectData) {
@@ -124,7 +158,7 @@ const Project = () => {
         console.log(e);
       }
     }
-  }, [auth, projectData]);
+  }, [auth, projectData, addTask]);
 
   const BuildTaskCard = (task) => {
     return (
@@ -148,15 +182,27 @@ const Project = () => {
   } else if (loading) {
     return <h1> Loading... </h1>;
   } else if (projectData) {
-    const taskElements = projectData.Tasks.map((task) => {
+
+    const taskElements_NotCompleted = projectData.Tasks.filter(task => task.Completion_Status == 0).map((task) => {
       return BuildTaskCard(task);
     });
 
-    let taskContent = null;
-    if (taskElements.length == 0) {
-      taskContent = "No tasks available.";
+    const taskElements_Completed = projectData.Tasks.filter(task => task.Completion_Status == 1).map((task) => {
+      return BuildTaskCard(task);
+    });
+
+    let taskContent_NotCompleted = null;
+    if (taskElements_NotCompleted.length == 0) {
+      taskContent_NotCompleted = "No tasks available to complete.";
     } else {
-      taskContent = <ul className = {styles.taskContent}> {taskElements} </ul>;
+      taskContent_NotCompleted = <ul className = {styles.taskContent}> {taskElements_NotCompleted} </ul>;
+    }
+
+    let taskContent_Completed = null
+    if (taskElements_Completed.length == 0) {
+      taskContent_Completed = "No tasks completed.";
+    } else {
+      taskContent_Completed = <ul className = {styles.taskContent}> {taskElements_Completed} </ul>;
     }
 
     return (
@@ -164,14 +210,14 @@ const Project = () => {
         <Header type="header" />
         <main className="content">
           <h1 className={styles.projectName}> {projectData.Project_Name} </h1>
-          <p className = {styles.projectId}>ID: {projectData.ProjectID}</p>
-          <h2 className = {styles.projectProgress}>
+          <p className={styles.projectId}>ID: {projectData.ProjectID}</p>
+          <h2 className={styles.projectProgress}>
             {" "}
             This project is{" "}
             {Math.round(
               (Number(projectData.Current_Stage) /
                 Number(projectData.NumberOfStages)) *
-                100
+              100
             )}
             % done!!!{" "}
           </h2>
@@ -186,13 +232,14 @@ const Project = () => {
           <p className={styles.projectSubinfo}>
             Stage Start Date: 1/01/2023 | Project Start Date: 1/01/2023
           </p>
+          <Link href={`/projects`}>Go Back to All Projects </Link>
           <h1>Tasks</h1>
           <div className="tasklist" id="activetasklist">
-            {taskContent}
+            {taskContent_NotCompleted}
           </div>
           <h1>Completed Tasks</h1>
           <div className="tasklist" id="completedtasklist">
-            No completed tasks available.
+            {taskContent_Completed}
           </div>
           <div className={styles.boxtabContainer} id="photos-container">
             <img
@@ -202,7 +249,7 @@ const Project = () => {
               alt="photos-icon"
             />
             <p className={styles.boxtabLabel} id="photoslabel">
-              Photos: 0
+              Photos
             </p>
             <div className={styles.boxtabArrowContainer}>
               <img
@@ -220,7 +267,7 @@ const Project = () => {
               alt="membercount-icon"
             />
             <p className={styles.boxtabLabel} id="membercount">
-              People: 0
+              People
             </p>
             <div className={styles.boxtabArrowContainer}>
               <img

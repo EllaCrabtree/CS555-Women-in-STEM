@@ -46,6 +46,18 @@
   color: #9fa2b4;
 }
 
+.tasksHeader {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addPic {
+  height: 32px;
+  width: 32px;
+}
+
 .taskContent {
     list-style: none;
 }
