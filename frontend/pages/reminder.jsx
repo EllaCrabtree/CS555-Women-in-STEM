@@ -1,42 +1,89 @@
 import React, { useEffect, useState } from "react";
+import Router from "next/router";
+import {
+    collection,
+    getDocs,
+    addDoc,
+    or,
+    where,
+    query,
+} from "firebase/firestore";
+
 import { useAuth } from "@contexts/authUserContext";
-import { doc, collection, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@libs/firebase.mjs";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
-import styles from "@styles/Form.module.css";
 
 const Reminder = () => {
-    const [user, setUser] = useState(null);
-    const [dateString, setDateString] = useState(null);
-    let reminder;
+    const [projectID, setProjectID] = useState();
+    const [projectOptions, setProjectOptions] = useState([]);
+    const [taskOptions, setTaskOptions] = useState([]);
+    const [reminder, setReminder] = useState({
+        ProjectID: "",
+        TaskID: "",
+        Title: "",
+        Due_Date: new Date().toISOString(),
+        Creation_Date: new Date().toISOString(),
+    });
 
-    // Check if the user isn't logged in
-    // If the user isn't logged in, redirect to the home page
     const auth = useAuth();
     useEffect(() => {
         if (!auth.authUser) {
             return;
         }
+
+        async function getProjects(uuid) {
+            try {
+                const q = query(
+                    collection(db, "Projects"),
+                    or(
+                        where("OwnerID", "==", uuid),
+                        where("Sales_Team", "array-contains", uuid),
+                        where("Construction_Team", "array-contains", uuid)
+                    )
+                );
+                const querySnapshot = await getDocs(q);
+                let dataArray = [];
+
+                querySnapshot.forEach((doc) => {
+                    dataArray.push(doc.data());
+                });
+                setProjectOptions(dataArray);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getProjects(auth.authUser.uid);
     }, [auth]);
 
     useEffect(() => {
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        if (month < 10) month = `0${month}`;
-        let day = date.getDate();
-        setDateString(`${year}-${month}-${day}`);
-        console.log(`DateString: ${dateString}`);
-    }, []);
+        if (!projectID) {
+            return;
+        }
 
-    reminder = {
-        ProjectID: "Select a project",
-        TaskID: "Select a task",
-        Title: "",
-        Due_Date: dateString,
-        Creation_Date: dateString,
-    };
+        async function getTasks(uuid) {
+            try {
+                const q = query(
+                    collection(db, "Tasks"),
+                    or(where("ProjectID", "==", uuid))
+                );
+                const querySnapshot = await getDocs(q);
+                let dataArray = [];
+
+                querySnapshot.forEach((doc) => {
+                    dataArray.push(doc.data());
+                });
+                setTaskOptions(dataArray);
+                setReminder({ ...reminder, TaskID: dataArray[0].TaskID });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getTasks(projectID);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [projectID]);
 
     return (
         <div className="whitePageWrapper">
@@ -49,40 +96,83 @@ const Reminder = () => {
                         flexDirection: "column",
                         gap: "0.5rem",
                     }}
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                        setReminder({
+                            ...reminder,
+                            Creation_Date: new Date().toISOString(),
+                        });
+
+                        if (
+                            reminder.ProjectID === "" ||
+                            reminder.TaskID === ""
+                        ) {
+                            alert("Please select a project and task");
+                            return;
+                        }
+
+                        try {
+                            await addDoc(collection(db, "Reminders"), reminder);
+                            Router.push("/dashboard");
+                        } catch (error) {
+                            console.error("Error adding document: ", error);
+                        }
+                    }}
                 >
                     <label htmlFor="ProjectID">Project</label>
                     <select
                         name="ProjectID"
                         id="ProjectID"
-                        onChange={(e) =>
-                            (reminder = {
+                        required
+                        defaultValue="none"
+                        onChange={(e) => {
+                            setReminder({
                                 ...reminder,
                                 ProjectID: e.target.value,
-                            })
-                        }
+                            });
+                            setProjectID(e.target.value);
+                        }}
                     >
-                        <option value="">Select a project</option>
+
+                        <option disabled value="none">
+                            Select a project
+                        </option>
+                        {projectOptions.map((project) => (
+                            <option
+                                key={project.ProjectID}
+                                value={project.ProjectID}
+                            >
+                                {project.Project_Name}
+                            </option>
+                        ))}
                     </select>
                     <label htmlFor="TaskID">Task</label>
                     <select
                         name="TaskID"
                         id="TaskID"
+                        required
+                        value={reminder.TaskID}
                         onChange={(e) =>
-                            (reminder = {
+                            setReminder({
                                 ...reminder,
                                 TaskID: e.target.value,
                             })
                         }
                     >
-                        <option value="">Select a task</option>
+                        {taskOptions.map((task) => (
+                            <option key={task.TaskID} value={task.TaskID}>
+                                {task.Title}
+                            </option>
+                        ))}
                     </select>
                     <label htmlFor="Title">Reminder Name</label>
                     <input
                         type="text"
                         name="Title"
                         id="Title"
+                        required
                         onChange={(e) =>
-                            (reminder = {
+                            setReminder({
                                 ...reminder,
                                 Title: e.target.value,
                             })
@@ -93,28 +183,20 @@ const Reminder = () => {
                         type="date"
                         id="Due_Date"
                         name="Due_Date"
-                        value={dateString}
-                        min={dateString}
-                        max="2023-12-31"
-                        onChange={(e) =>
-                            (reminder = {
+                        required
+                        min={new Date().toISOString().split("T")[0]}
+                        onChange={(e) => {
+                            setReminder({
                                 ...reminder,
                                 Due_Date: e.target.value,
-                            })
-                        }
+                            });
+                        }}
                     />
                     <button
                         style={{
                             marginTop: "1rem",
                         }}
                         type="submit"
-                        onClick={async (e) => {
-                            e.preventDefault();
-                            console.log(reminder);
-                            // await setDoc(doc(db, "Users", auth.authUser.uid), {
-                            //     ...user,
-                            // });
-                        }}
                     >
                         Create Reminder
                     </button>
