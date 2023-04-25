@@ -5,7 +5,7 @@ import { initializeApp } from "firebase/app";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 import styles from "@styles/ProjectIndex.module.css"
-import { Card, Text, Link } from "@nextui-org/react";
+import { Card, Text, Link, Row, Button } from "@nextui-org/react";
 
 
 import {
@@ -17,18 +17,23 @@ import {
     query,
     where,
     or,
+    doc,
+    updateDoc
   } from "firebase/firestore";
 
 const Task = () => {
     const router = useRouter();
     const { projectId, taskId } = router.query;
 
-
     const [taskData, setTaskData] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [db, setDB] = useState();
     const [userData, setUserData] = useState();
+    const [isCompleted, setIsCompleted] = useState();
+
+    // const [completedSubtasks, setCompletedSubtasks] = useState();
+    // const [notCompletedSubtasks, setNonCompletedSubtasks] = useState();
 
     const auth = useAuth();
 
@@ -100,7 +105,7 @@ const Task = () => {
                 taskInfo.isCompleted = "Completed!"
               }
 
-            //   taskInfo.isCompleted = taskDataArray[0].Completion_Status
+              // taskInfo.isCompleted = taskDataArray[0].Completion_Status
 
             //   project.Tasks = taskDataArray;
     
@@ -135,6 +140,7 @@ const Task = () => {
     
           try {
             if (!taskData) {
+              console.log('i got here')
               getData(auth.authUser.uid);
             } else {
               setLoading(false);
@@ -145,19 +151,90 @@ const Task = () => {
         }
       }, [auth, taskData]);
 
+      const completeSubtask = async (subtaskID) => {
+        
+        let tempData = {};
+        tempData.Task_name = taskData.Task_name
+        tempData.Task_ID = taskData.Task_ID
+        tempData.DueDate = taskData.DueDate
+        tempData.CompletionDate = taskData.CompletionDate
+        tempData.Project_Name = taskData.Project_Name
+        tempData.ProjectID = taskData.ProjectID
+        tempData.SubTasks = []
+        
+        let allCompleted = true;
+
+        for (let i = 0; i < taskData.SubTasks.length; i++) {
+          tempData.SubTasks.push(taskData.SubTasks[i])
+          // console.log(tempData.SubTasks[i].SubTaskID)
+
+          if (tempData.SubTasks[i].SubTaskID == subtaskID) {
+            tempData.SubTasks[i].Completion_Status = (tempData.SubTasks[i].Completion_Status - 1) * -1;
+
+            const ref = doc(db, "Subtasks", subtaskID);
+            await updateDoc(ref, {
+              Completion_Status: tempData.SubTasks[i].Completion_Status
+            })
+          }
+
+          if (tempData.SubTasks[i].Completion_Status == 0) {
+            allCompleted = false;
+          }
+        }
+
+        if (taskData.isCompleted == "Not Completed" && allCompleted) {
+          tempData.isCompleted = "Completed!";
+          const task_ref = doc(db, "Tasks", tempData.Task_ID);
+            await updateDoc(task_ref, {
+              Completion_Status: 1
+          })
+        } else if (taskData.isCompleted == "Completed!" && !allCompleted) {
+          tempData.isCompleted = "Not Completed";
+          const task_ref = doc(db, "Tasks", tempData.Task_ID);
+            await updateDoc(task_ref, {
+              Completion_Status: 0
+          })
+        } else {
+          tempData.isCompleted = taskData.isCompleted
+        }
+
+        setTaskData(tempData)
+      }
+ 
+
       const BuildSubTaskCard = (subtask) => {
+
+        let buttonText = null
+        if (subtask.Completion_Status == 0) {
+          buttonText = "Check Subtask"
+        } else {
+          buttonText = "Uncheck Subtask"
+        }
+
         return (
           <li key={subtask.SubTaskID}>
-            <Link href={`/project/${projectId}/task/${subtask.SubTaskID}`}>
-              <Card isPressable isHoverable variant="bordered">
+            {/* <Link href={`/project/${projectId}/task/${subtask.SubTaskID}`}> */}
+              <Card variant="bordered">
                 <Card.Header>
                   <Text> {subtask.Title} </Text>
                 </Card.Header>
+                <Card.Divider />
                 <Card.Body>
                   <Text> {subtask.Description} </Text>
                 </Card.Body>
+                <Card.Divider />
+                <Card.Footer>
+                  <Row>
+                    <Button onPress={async (e) => {
+                      // console.log(subtask.SubTaskID)
+                      await completeSubtask(subtask.SubTaskID);
+                    }}>
+                      {buttonText}
+                    </Button>
+                  </Row>
+                </Card.Footer>
               </Card>
-            </Link>
+            {/* </Link> */}
           </li>
         );
       };
@@ -168,13 +245,12 @@ const Task = () => {
         return (<h1> Loading ... </h1>)
       } else if (taskData) {
 
-
         const subtaskElements_NotCompleted = taskData.SubTasks.filter(subtask => subtask.Completion_Status == 0).map((subtask) => {
             return BuildSubTaskCard(subtask);
         });
 
         const subtaskElements_Completed = taskData.SubTasks.filter(subtask => subtask.Completion_Status == 1).map((subtask) => {
-            return BuildSubTaskCard(subtask);
+          return BuildSubTaskCard(subtask);
         });
       
           let subtaskContent = null;
@@ -219,6 +295,7 @@ const Task = () => {
                 {/* <p className={styles.projectSubinfo}>
                   Stage Start Date: 1/01/2023 | Project Start Date: 1/01/2023
                 </p> */}
+                <Link href={`/project/${projectId}`}>Go Back to Project </Link>
                 <h1>Subtasks</h1>
                 <div className="tasklist" id="activetasklist">
                   {subtaskContent}
