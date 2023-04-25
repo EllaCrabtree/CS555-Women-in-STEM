@@ -1,0 +1,11 @@
+.projectsHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addPic {
+    width: 32px;
+    height: 32px;
+}
