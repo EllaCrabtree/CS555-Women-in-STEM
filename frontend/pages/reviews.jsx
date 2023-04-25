@@ -12,7 +12,17 @@ const Reviews = () => {
             <main className="content">
                 <h1>Reviews</h1>
 
-                <div>Please leave a review for us here:</div>
+                <div>Please leave a review and rating for us here:</div>
+
+                <input name="reviewText" required="true" />
+
+                <p></p>
+
+                <label><input type="radio" name="starRating" value="rating1" /> 1 </label>
+                <label><input type="radio" name="starRating" value="rating2" /> 2 </label>
+                <label><input type="radio" name="starRating" value="rating3" /> 3 </label>
+                <label><input type="radio" name="starRating" value="rating4" /> 4 </label>
+                <label><input type="radio" name="starRating" value="rating5" /> 5 </label>
             </main>
             <Footer type="footer" />
         </div>
