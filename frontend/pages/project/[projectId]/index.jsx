@@ -148,15 +148,27 @@ const Project = () => {
   } else if (loading) {
     return <h1> Loading... </h1>;
   } else if (projectData) {
-    const taskElements = projectData.Tasks.map((task) => {
+
+    const taskElements_NotCompleted = projectData.Tasks.filter(task => task.Completion_Status == 0).map((task) => {
       return BuildTaskCard(task);
     });
 
-    let taskContent = null;
-    if (taskElements.length == 0) {
-      taskContent = "No tasks available.";
+    const taskElements_Completed = projectData.Tasks.filter(task => task.Completion_Status == 1).map((task) => {
+      return BuildTaskCard(task);
+    });
+
+    let taskContent_NotCompleted = null;
+    if (taskElements_NotCompleted.length == 0) {
+      taskContent_NotCompleted = "No tasks available to complete.";
     } else {
-      taskContent = <ul className = {styles.taskContent}> {taskElements} </ul>;
+      taskContent_NotCompleted = <ul className = {styles.taskContent}> {taskElements_NotCompleted} </ul>;
+    }
+
+    let taskContent_Completed = null
+    if (taskElements_Completed.length == 0) {
+      taskContent_Completed = "No tasks completed.";
+    } else {
+      taskContent_Completed = <ul className = {styles.taskContent}> {taskElements_Completed} </ul>;
     }
 
     return (
@@ -186,13 +198,14 @@ const Project = () => {
           <p className={styles.projectSubinfo}>
             Stage Start Date: 1/01/2023 | Project Start Date: 1/01/2023
           </p>
+          <Link href={`/projects`}>Go Back to All Projects </Link>
           <h1>Tasks</h1>
           <div className="tasklist" id="activetasklist">
-            {taskContent}
+            {taskContent_NotCompleted}
           </div>
           <h1>Completed Tasks</h1>
           <div className="tasklist" id="completedtasklist">
-            No completed tasks available.
+            {taskContent_Completed}
           </div>
           <div className={styles.boxtabContainer} id="photos-container">
             <img
