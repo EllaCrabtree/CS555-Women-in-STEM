@@ -54,16 +54,24 @@ export default function Createproject() {
         <>
           <h1>Create Project</h1>
           <form className={styles.createProjectForm}>
+            <div>
             <label htmlFor="projectName">Project Name</label>
             <input type="text" name="projectName" id="projectName" />
+            <label htmlFor="projectName">Project ID</label>
+            <input type="text" name="projectId" id="projectId" />
+            <label htmlFor="numStages">Number of Stages</label>
+            <input type="number" name="numStages" id="numStages" />
+            <label htmlFor="customer">Customer Id</label>
+            <input type="text" name="customerId" id="customerId"/>
+            </div>
             <label htmlFor="projectDescription">Project Description</label>
             <input
               type="text"
               name="projectDescription"
               id="projectDescription"
             />
-            <label htmlFor="numStages">Number of Stages</label>
-            <input type="number" name="numStages" id="numStages" />
+            
+            
             <label htmlFor="salesTeam">Sales Team Ids</label>
             <textarea
               name="salesTeam"
@@ -86,7 +94,31 @@ export default function Createproject() {
               onClick={async (e) => {
                 e.preventDefault();
                 console.log(user);
-                // TODO: database interaction
+                const projectName = document.getElementById("projectName").value;
+                const projectDescription = document.getElementById("projectDescription").value;
+                const numStages = document.getElementById("numStages").value;
+                const customerIds = document.getElementById("customerId").value;
+                const projectId = document.getElementById("projectId").value;
+                const salesTeamIds = document.getElementById("salesTeam").value;
+                const constructionTeamIds = document.getElementById("constructionTeam").value;
+                try {
+                    let project;                  
+                    project = await setDoc(doc(db, 'Projects',projectId), {
+                    ProjectID: projectId,
+                    Project_Name: projectName,
+                    Description:projectDescription,
+                    OwnerID:customerIds,
+                    Sales_Team:salesTeamIds.split(/\s+/),
+                    Construction_Team:constructionTeamIds.split(/\s+/),
+                    Current_Stage:0,
+                    NumberOfStages:numStages,
+                    Tasks:[]
+                  })
+                  console.log(project);
+                } catch (error) {
+                  throw `Project failed to add to database! Message: ${error}`
+                }
+
               }}
             >
               Submit
