@@ -45,7 +45,7 @@ export default function Createproject() {
     if (user.userType !== "Operations")
       return (
         <>
-          <h1>You can't create a project.</h1>
+          <h1>You can&apos;t create a project.</h1>
           <p>Contact an operations manager.</p>
         </>
       );
