@@ -4,10 +4,11 @@ import "@styles/globals.css";
 
 export default function App({ Component, pageProps }) {
     return (
+
         <AuthUserProvider>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout> 
         </AuthUserProvider>
     );
 }

@@ -133,6 +133,7 @@ const Reminder = () => {
                             setProjectID(e.target.value);
                         }}
                     >
+
                         <option disabled value="none">
                             Select a project
                         </option>
