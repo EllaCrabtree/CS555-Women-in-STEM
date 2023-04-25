@@ -61,7 +61,7 @@ const Reminder = () => {
                             })
                         }
                     >
-                        <option value="">Select a task</option>
+                        <option value="">Select a project</option>
                     </select>
                     <label htmlFor="TaskID">Task</label>
                     <select
@@ -74,7 +74,7 @@ const Reminder = () => {
                             })
                         }
                     >
-                        <option value="">Select a project</option>
+                        <option value="">Select a task</option>
                     </select>
                     <label htmlFor="Title">Reminder Name</label>
                     <input
