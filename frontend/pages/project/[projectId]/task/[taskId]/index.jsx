@@ -31,6 +31,8 @@ const Task = () => {
     const [db, setDB] = useState();
     const [userData, setUserData] = useState();
     const [isCompleted, setIsCompleted] = useState();
+    const [imageData, setImageData] = useState();
+    const [imageError, setImageError] = useState(false)
 
     // const [completedSubtasks, setCompletedSubtasks] = useState();
     // const [notCompletedSubtasks, setNonCompletedSubtasks] = useState();
@@ -121,6 +123,20 @@ const Task = () => {
               });
 
               taskInfo.SubTasks = subtaskArray;
+
+              const q4 = query(
+                collection(db, "Images"),
+                where("ProjectID", "==", projectId),
+                where("TaskID", "==", taskId)
+              );
+              const querySnapshot4 = await getDocs(q4);
+    
+              let imageArray = [];
+              querySnapshot4.forEach((doc) => {
+                imageArray.push(doc.data());
+              });
+    
+              taskInfo.images = imageArray;
     
             //   project.ProjectOwner = {
             //     first_name: tempPeopleArray[0].first_name,
@@ -150,6 +166,11 @@ const Task = () => {
           }
         }
       }, [auth, taskData]);
+
+
+      const BuildImageList = (image) => {
+        return(<img src={image.Base64URL} alt="KikiMonster" />)
+      }
 
       const completeSubtask = async (subtaskID) => {
         
@@ -200,6 +221,37 @@ const Task = () => {
 
         setTaskData(tempData)
       }
+
+      const handleImageChange = (img) => {
+        console.log(img.target.files[0])
+        setImageError(false)
+        const reader = new FileReader();
+        reader.readAsDataURL(img.target.files[0]);
+    
+        reader.onloadend = () => {
+            // console.log('hi')
+            // console.log(reader.result)
+            setImageData({'img': reader.result});
+        }
+      }
+    
+      const UploadImage = async () => {
+        
+        const image = {
+          ProjectID: projectId,
+          TaskID: taskId,
+          Base64URL: imageData.img
+        }
+    
+        try {
+          let imageResult = await addDoc(collection(db, "Images"), image);
+          console.log(imageResult)
+        } catch (e) {
+          // console.log(e)
+          setImageError(true)
+        }
+      }
+    
  
 
       const BuildSubTaskCard = (subtask) => {
@@ -252,20 +304,36 @@ const Task = () => {
         const subtaskElements_Completed = taskData.SubTasks.filter(subtask => subtask.Completion_Status == 1).map((subtask) => {
           return BuildSubTaskCard(subtask);
         });
-      
-          let subtaskContent = null;
-          if (subtaskElements_NotCompleted.length == 0) {
-            subtaskContent = "No subtasks available to complete.";
-          } else {
-            subtaskContent = <ul className = {styles.taskContent}> {subtaskElements_NotCompleted} </ul>;
-          }
 
-          let completedSubtaskContent = null;
-          if (subtaskElements_Completed.length == 0) {
-            completedSubtaskContent = "No subtasks completed.";
-          } else {
-            completedSubtaskContent = <ul className = {styles.taskContent}> {subtaskElements_Completed} </ul>;
-          }
+        const imageElements = taskData.images.map((img) => {
+          return BuildImageList(img);
+        })
+
+        let imageErrorContent =null
+        if (imageError) {
+          imageErrorContent = <p> Please upload a smaller photo </p>
+        }
+        
+        let imageContent = null
+        if (imageElements.length == 0) {
+          imageContent = "No Images for this Task"
+        } else {
+          imageContent = <ul> {imageElements} </ul>
+        }
+      
+        let subtaskContent = null;
+        if (subtaskElements_NotCompleted.length == 0) {
+          subtaskContent = "No subtasks available to complete.";
+        } else {
+          subtaskContent = <ul className = {styles.taskContent}> {subtaskElements_NotCompleted} </ul>;
+        }
+
+        let completedSubtaskContent = null;
+        if (subtaskElements_Completed.length == 0) {
+          completedSubtaskContent = "No subtasks completed.";
+        } else {
+          completedSubtaskContent = <ul className = {styles.taskContent}> {subtaskElements_Completed} </ul>;
+        }
 
 
         return (
@@ -312,7 +380,7 @@ const Task = () => {
                     alt="photos-icon"
                   />
                   <p className={styles.boxtabLabel} id="photoslabel">
-                    Photos: 0
+                    Photos: {imageElements.length}
                   </p>
                   <div className={styles.boxtabArrowContainer}>
                     <img
@@ -322,6 +390,20 @@ const Task = () => {
                     />
                   </div>
                 </div>
+              {imageContent}
+              <label>
+                    Choose a photo to upload
+                </label>
+                <input 
+                    onChange={(e) => handleImageChange(e)}
+                    type="file" 
+                    id="img" 
+                    name="img" 
+                    accept="image/*"
+                    encType="multipart/form-data" />
+                
+                <button onClick={UploadImage}>Upload Image</button>
+                {imageErrorContent}
                 <div className={styles.boxtabContainer} id="membercount-container">
                   <img
                     className={styles.boxtabIcon}
