@@ -363,6 +363,13 @@ const Task = () => {
 				<div className="whitePageWrapper">
 					<Header type="header" />
 					<main className="content">
+						<Button
+							onPress={() => {
+								setSpanish(true);
+							}}
+						>
+							Cambiar a Español
+						</Button>
 						<h1 className={styles.projectName}> {taskData.Task_name} </h1>
 						<p className={styles.projectId}>ID: {taskData.Task_ID}</p>
 						{/* <h2 className = {styles.projectProgress}>
@@ -455,6 +462,13 @@ const Task = () => {
 				<div className="whitePageWrapper">
 					<Header type="header" />
 					<main className="content">
+						<Button
+							onPress={() => {
+								setSpanish(false);
+							}}
+						>
+							Switch to English
+						</Button>
 						<h1 className={styles.projectName}> {taskData.Task_name} </h1>
 						<p className={styles.projectId}>ID: {taskData.Task_ID}</p>
 						{/* <h2 className = {styles.projectProgress}>

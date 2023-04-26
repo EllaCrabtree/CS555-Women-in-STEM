@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { Button } from "@nextui-org/react";
 
 const Subtask = () => {
 	const router = useRouter();
@@ -9,6 +10,13 @@ const Subtask = () => {
 	if (!spanish) {
 		return (
 			<main className="content-container">
+				<Button
+					onPress={() => {
+						setSpanish(true);
+					}}
+				>
+					Cambiar a Español
+				</Button>
 				<h1 id="project-name">Default Subtask Name</h1>
 				<h2 className="project-main-name" id="project-manager-name">
 					Creator: Default Creator Name
@@ -59,6 +67,13 @@ const Subtask = () => {
 	} else {
 		return (
 			<main className="content-container">
+				<Button
+					onPress={() => {
+						setSpanish(false);
+					}}
+				>
+					Switch to English
+				</Button>
 				<h1 id="project-name">Nombre de la Subtarea Predeterminada</h1>
 				<h2 className="project-main-name" id="project-manager-name">
 					Creador: Nombre del creador predeterminado

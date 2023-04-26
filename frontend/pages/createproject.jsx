@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Router from "next/router";
 import { useAuth } from "@contexts/authUserContext";
 import { doc, collection, getDoc, setDoc } from "firebase/firestore";
-import { Card, Text, Link } from "@nextui-org/react";
+import { Card, Text, Link, Button } from "@nextui-org/react";
 import { db } from "@libs/firebase.mjs";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
@@ -63,6 +63,13 @@ export default function Createproject() {
 			if (!spanish) {
 				return (
 					<>
+						<Button
+							onPress={() => {
+								setSpanish(true);
+							}}
+						>
+							Cambiar a Español
+						</Button>
 						<h1>Create Project</h1>
 						<form className={styles.createProjectForm}>
 							<label htmlFor="projectName">Project Name</label>
@@ -142,6 +149,13 @@ export default function Createproject() {
 			} else {
 				return (
 					<>
+						<Button
+							onPress={() => {
+								setSpanish(false);
+							}}
+						>
+							Switch to English
+						</Button>
 						<h1>Crear Proyecto</h1>
 						<form className={styles.createProjectForm}>
 							<label htmlFor="projectName">Nombre del Proyecto</label>

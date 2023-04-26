@@ -4,6 +4,7 @@ import { doc, collection, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@libs/firebase.mjs";
 import Footer from "@components/Footer";
 import Router from "next/router";
+import { Button } from "@nextui-org/react";
 
 const Profile = () => {
 	const [user, setUser] = useState(null);
@@ -71,6 +72,13 @@ const Profile = () => {
 			return (
 				<div className="whitePageWrapper">
 					<main className="content">
+						<Button
+							onPress={() => {
+								setSpanish(true);
+							}}
+						>
+							Cambiar a Español
+						</Button>
 						<h1>Your Profile</h1>
 						<p>UUId: {auth.authUser.uid}</p>
 						<form
@@ -144,6 +152,13 @@ const Profile = () => {
 			return (
 				<div className="whitePageWrapper">
 					<main className="content">
+						<Button
+							onPress={() => {
+								setSpanish(false);
+							}}
+						>
+							Switch to English
+						</Button>
 						<h1>Tu perfil</h1>
 						<p>UUID: {auth.authUser.uid}</p>
 						<form

@@ -5,6 +5,7 @@ import Router from "next/router";
 import { useAuth } from "@contexts/authUserContext";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
+import { Button } from "@nextui-org/react";
 
 const People = () => {
 	const [spanish, setSpanish] = useState(false);
@@ -13,6 +14,13 @@ const People = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(true);
+						}}
+					>
+						Cambiar a Español
+					</Button>
 					<div class="searchbar">
 						<img src="/search.png" alt="searchpic" />
 						<input type="text" placeholder="Search people..." />
@@ -28,6 +36,13 @@ const People = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(false);
+						}}
+					>
+						Switch to English
+					</Button>
 					<div class="searchbar">
 						<img src="/search.png" alt="searchpic" />
 						<input type="text" placeholder="Busca gente..." />

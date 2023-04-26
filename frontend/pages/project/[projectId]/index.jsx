@@ -1,7 +1,7 @@
 import { useAuth } from "@contexts/authUserContext";
 import React, { useEffect, useState } from "react";
 import { Router, useRouter } from "next/router";
-import { Card, Text, Link } from "@nextui-org/react";
+import { Card, Text, Link, Button } from "@nextui-org/react";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 import { initializeApp } from "firebase/app";
@@ -296,6 +296,13 @@ const Project = () => {
 				<div className="whitePageWrapper">
 					<Header type="header" />
 					<main className="content">
+						<Button
+							onPress={() => {
+								setSpanish(true);
+							}}
+						>
+							Cambiar a Español
+						</Button>
 						<h1 className={styles.projectName}> {projectData.Project_Name} </h1>
 						<p className={styles.projectId}>ID: {projectData.ProjectID}</p>
 						<h2 className={styles.projectProgress}>
@@ -386,6 +393,13 @@ const Project = () => {
 				<div className="whitePageWrapper">
 					<Header type="header" />
 					<main className="content">
+						<Button
+							onPress={() => {
+								setSpanish(false);
+							}}
+						>
+							Switch to English
+						</Button>
 						<h1 className={styles.projectName}> {projectData.Project_Name} </h1>
 						<p className={styles.projectId}>ID: {projectData.ProjectID}</p>
 						<h2 className={styles.projectProgress}>
