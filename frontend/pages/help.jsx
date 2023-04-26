@@ -4,6 +4,7 @@ import Router from "next/router";
 import { useAuth } from "@contexts/authUserContext";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
+import { Button } from "@nextui-org/react";
 
 const Help = () => {
 	const [spanish, setSpanish] = useState(false);
@@ -260,6 +261,13 @@ const Help = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(true);
+						}}
+					>
+						Cambiar a Español
+					</Button>
 					<h1>Help</h1>
 
 					{!answer && (
@@ -312,6 +320,13 @@ const Help = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(false);
+						}}
+					>
+						Switch to English
+					</Button>
 					<h1>Ayuda</h1>
 
 					{!answer && (

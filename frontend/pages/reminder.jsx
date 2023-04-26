@@ -13,6 +13,7 @@ import { useAuth } from "@contexts/authUserContext";
 import { db } from "@libs/firebase.mjs";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
+import { Button } from "@nextui-org/react";
 
 const Reminder = () => {
 	const [projectID, setProjectID] = useState();
@@ -91,6 +92,13 @@ const Reminder = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(true);
+						}}
+					>
+						Cambiar a Español
+					</Button>
 					<h1>Make A Reminder</h1>
 					<form
 						style={{
@@ -205,6 +213,13 @@ const Reminder = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(false);
+						}}
+					>
+						Switch to English
+					</Button>
 					<h1>Hacer un Recordatorio</h1>
 					<form
 						style={{

@@ -5,6 +5,7 @@ import { db } from "@libs/firebase.mjs";
 import { useAuth } from "@contexts/authUserContext";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
+import { Button } from "@nextui-org/react";
 
 const Notifications = () => {
 	const [reminders, setReminders] = useState([]);
@@ -85,6 +86,13 @@ const Notifications = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(true);
+						}}
+					>
+						Cambiar a Español
+					</Button>
 					<h1>All Notifications</h1>
 					{reminders.length === 0 && <div>No notifications available.</div>}
 					{reminders &&
@@ -114,6 +122,13 @@ const Notifications = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(false);
+						}}
+					>
+						Switc to English
+					</Button>
 					<h1>Todas las Notificaciones</h1>
 					{reminders.length === 0 && (
 						<div>No hay notificaciones disponibles.</div>
