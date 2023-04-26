@@ -12,6 +12,7 @@ export default function Dashboard() {
 	// If the user isn't logged in, redirect to the home page
 	const auth = useAuth();
 	const [spanish, setSpanish] = useState(false);
+
 	useEffect(() => {
 		if (!auth.authUser) {
 			Router.push("/");
@@ -23,13 +24,6 @@ export default function Dashboard() {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
-					<Button
-						onPress={() => {
-							setSpanish(true);
-						}}
-					>
-						Cambiar a Español
-					</Button>
 					<div class="searchbar">
 						<img src="/search.png" alt="searchpic" />
 						<input type="text" placeholder="Search for Tasks..." />
@@ -45,13 +39,6 @@ export default function Dashboard() {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
-					<Button
-						onPress={() => {
-							setSpanish(false);
-						}}
-					>
-						Switch to English
-					</Button>
 					<div class="searchbar">
 						<img src="/search.png" alt="searchpic" />
 						<input type="text" placeholder="Buscar tareas..." />

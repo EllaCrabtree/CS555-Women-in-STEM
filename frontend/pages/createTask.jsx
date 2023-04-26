@@ -15,8 +15,8 @@ export default function Createtask() {
 	const { data } = router.query;
 	const projectId = data;
 	const auth = useAuth();
-	const [user, setUser] = useState(null);
 	const [spanish, setSpanish] = useState(false);
+	const [user, setUser] = useState(null);
 	let form;
 	useEffect(() => {
 		if (!auth.authUser) {
@@ -66,13 +66,6 @@ export default function Createtask() {
 			if (!spanish) {
 				return (
 					<>
-						<Button
-							onPress={() => {
-								setSpanish(true);
-							}}
-						>
-							Cambiar a Español
-						</Button>
 						<h1>Create Project</h1>
 						<form className={styles.createProjectForm}>
 							<label htmlFor="taskName">Task Name</label>
@@ -127,13 +120,6 @@ export default function Createtask() {
 			} else {
 				return (
 					<>
-						<Button
-							onPress={() => {
-								setSpanish(false);
-							}}
-						>
-							Switch to English
-						</Button>
 						<h1>Crear Proyecto</h1>
 						<form className={styles.createProjectForm}>
 							<label htmlFor="taskName">Nombre de la Tarea</label>
