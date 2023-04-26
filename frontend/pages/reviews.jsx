@@ -1,16 +1,28 @@
 import { useEffect, useState } from "react";
 import Router from "next/router";
+import {
+    query,
+    or,
+    where,
+    collection,
+    getDocs,
+    addDoc,
+} from "firebase/firestore";
 import { Rating } from "react-simple-star-rating";
 
+import { db } from "@libs/firebase.mjs";
 import { useAuth } from "@contexts/authUserContext";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 
 const Reviews = () => {
     const [review, setReview] = useState({
+        projectID: "",
         review: "",
         rating: 0,
+        created_at: new Date().toISOString(),
     });
+    const [projectOptions, setProjectOptions] = useState([]);
     const [loading, setLoading] = useState(true);
     const auth = useAuth();
 
@@ -21,6 +33,30 @@ const Reviews = () => {
         if (!auth.authUser) {
             Router.push("/login");
         }
+
+        async function getProjects(uuid) {
+            try {
+                const q = query(
+                    collection(db, "Projects"),
+                    or(
+                        where("OwnerID", "==", uuid),
+                        where("Sales_Team", "array-contains", uuid),
+                        where("Construction_Team", "array-contains", uuid)
+                    )
+                );
+                const querySnapshot = await getDocs(q);
+                let dataArray = [];
+
+                querySnapshot.forEach((doc) => {
+                    dataArray.push(doc.data());
+                });
+                setProjectOptions(dataArray);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getProjects(auth.authUser.uid);
     }, [auth]);
 
     if (loading) {
@@ -41,14 +77,50 @@ const Reviews = () => {
             <Header type="header" />
             <main className="content">
                 <h1>Reviews</h1>
-                <div>Please leave a review and rating for us here:</div>
+                <div>Please leave a review and rating for us here.</div>
+                <br />
                 <form
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                         e.preventDefault();
-                        console.log(review);
+                        if (review.projectID === "" || review.review === "") {
+                            alert("Please fill out all fields.");
+                            return;
+                        }
+
+                        try {
+                            await addDoc(collection(db, "Reviews"), review);
+                            Router.push("/dashboard");
+                        } catch (error) {
+                            console.error("Error adding document: ", error);
+                        }
                     }}
                 >
-                    <label htmlFor="review">Review:</label>
+                    <label htmlFor="ProjectID">Project:</label>
+                    <br />
+                    <select
+                        name="ProjectID"
+                        id="ProjectID"
+                        required
+                        defaultValue="none"
+                        onChange={(e) => {
+                            setReview({
+                                ...review,
+                                projectID: e.target.value,
+                            });
+                        }}
+                    >
+                        <option disabled value="none">
+                            Select a project
+                        </option>
+                        {projectOptions.map((project) => (
+                            <option
+                                key={project.ProjectID}
+                                value={project.ProjectID}
+                            >
+                                {project.Project_Name}
+                            </option>
+                        ))}
+                    </select>
                     <Rating
                         onClick={(rating) => {
                             setReview({
@@ -58,6 +130,7 @@ const Reviews = () => {
                         }}
                     />
                     <br />
+                    <label htmlFor="review">Review:</label>
                     <textarea
                         id="review"
                         name="review"
