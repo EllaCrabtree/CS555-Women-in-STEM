@@ -1,4 +1,4 @@
-import { useEffect, useSTate } from "react";
+import { useEffect, useState } from "react";
 import Router from "next/router";
 // import { Image } from "next/image";
 
