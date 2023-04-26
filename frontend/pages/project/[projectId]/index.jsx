@@ -220,7 +220,7 @@ const Project = () => {
         if (!date || date != newCurrentDate) {
             setDate(newCurrentDate);
         }
-        console.log(newCurrentDate);
+        // console.log(newCurrentDate);
     };
 
     setInterval(checkDate, 1000 * 5);
@@ -300,7 +300,7 @@ const Project = () => {
     };
 
     const BuildImageList = (image) => {
-        return <img src={image.Base64URL} alt="KikiMonster" />;
+        return <img src={image.Base64URL} style={{width: "100%", marginTop:"10px"}} alt="KikiMonster" />;
     };
 
     if (error) {
@@ -394,12 +394,6 @@ const Project = () => {
                         </h2>
                         <h2
                             className={styles.projectMainName}
-                            id="project-manager-name"
-                        >
-                            Manager: Default Manager Name
-                        </h2>
-                        <h2
-                            className={styles.projectMainName}
                             id="project-client-name"
                         >
                             Client: {projectData.ProjectOwner.first_name}{" "}
@@ -415,15 +409,7 @@ const Project = () => {
                                   ) / reviews.length
                                 : 0}
                         </h2>
-                        <p className={styles.projectSubinfo}>
-                            Status: Default Status
-                        </p>
-
-                        <p className={styles.projectSubinfo}>
-                            Stage Start Date: 1/01/2023 | Project Start Date:
-                            1/01/2023
-                        </p>
-                        <Link href={`/projects`}>Go Back to All Projects </Link>
+                        <Link href={`/dashboard`}>Go Back to All Projects </Link>
                         <h1>Tasks</h1>
                         <div className="tasklist" id="activetasklist">
                             {taskContent_NotCompleted}
