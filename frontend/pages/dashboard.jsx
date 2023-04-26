@@ -21,23 +21,17 @@ import Footer from "@components/Footer";
 import styles from "@styles/Dashboard.module.css";
 
 export default function Dashboard() {
-  // Check if the user isn't logged in
-  // If the user isn't logged in, redirect to the home page
-  const auth = useAuth();
+  const [user, setUser] = useState(null);
   const [projectData, setProjectData] = useState();
-  useEffect(() => {
-    if (!auth.authUser) {
-      Router.push("/");
-    }
-  }, [auth]);
+  const [loading, setLoading] = useState(true);
 
   // Check if the user isn't logged in
   // If the user isn't logged in, redirect to the home page
-  const [user, setUser] = useState(null);
+  const auth = useAuth();
   useEffect(() => {
-    if (!auth.authUser) {
-      return;
-    }
+    setLoading(auth.loading);
+    console.log(auth.loading);
+    if (auth.loading) return;
 
     // Get the user's profile
     const getUser = async () => {
@@ -59,47 +53,41 @@ export default function Dashboard() {
         setUser(userDoc.data());
       }
     };
-    getUser();
 
-    // const app = initializeApp({
-    //   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
-    //   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    //   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    // });
-    // setDB(getFirestore(app));
+    const getData = async (uuid) => {
+      try {
+        const q = query(
+          collection(db, "Projects"),
+          or(
+            where("OwnerID", "==", uuid),
+            where("Sales_Team", "array-contains", uuid),
+            where("Construction_Team", "array-contains", uuid)
+          )
+        );
+        const querySnapshot = await getDocs(q);
+        let dataArray = [];
+
+        querySnapshot.forEach((doc) => {
+          dataArray.push(doc.data());
+        });
+        setProjectData(dataArray);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     if (auth.authUser) {
-      async function getData(uuid) {
-        try {
-          const q = query(
-            collection(db, "Projects"),
-            or(
-              where("OwnerID", "==", uuid),
-              where("Sales_Team", "array-contains", uuid),
-              where("Construction_Team", "array-contains", uuid)
-            )
-          );
-          const querySnapshot = await getDocs(q);
-          let dataArray = [];
-
-          querySnapshot.forEach((doc) => {
-            dataArray.push(doc.data());
-          });
-          setProjectData(dataArray);
-        } catch (error) {
-          console.log(error);
-        }
+      if (!user) {
+        getUser();
+      } else if (!projectData) {
+        getData(auth.authUser.uid);
+      } else {
+        setLoading(false);
       }
-
-      try {
-        if (!projectData) {
-          getData(auth.authUser.uid);
-        }
-      } catch (e) {
-        console.log(e);
-      }
+    } else {
+      Router.push("/login");
     }
-  }, [auth, projectData]);
+  }, [auth, user]);
 
   const BuildProjectCard = (project) => {
     return (
@@ -127,37 +115,39 @@ export default function Dashboard() {
     } else return <div>No projects available.</div>;
   };
 
-  if (!user) {
+  if (loading) {
     return <div>Loading...</div>;
-  }
+  } else if (user && auth.authUser) {
+    let projects = getProjects();
+    let addProjectButton = <></>;
+    if (user.userType === "Operations") {
+      addProjectButton = (
+        <Link href="/createproject">
+          <img
+            src="/add.png"
+            className={styles.addPic}
+            alt="createprojectpic"
+          />
+        </Link>
+      );
+    }
 
-  let projects = getProjects();
-  let addProjectButton = <></>;
-  if (user.userType === "Operations") {
-    addProjectButton = <Link href="/createproject">
-      <img
-        src="/add.png"
-        className={styles.addPic}
-        alt="createprojectpic"
-      />
-    </Link>
+    return (
+      <div className="whitePageWrapper">
+        <Header type="header" />
+        <main className="content">
+          <div className="searchbar">
+            <img src="/search.png" alt="searchpic" />
+            <input type="text" placeholder="Search for Projects..." />
+          </div>
+          <div className={styles.projectsHeader}>
+            <h1>All Projects</h1>
+            {addProjectButton}
+          </div>
+          <ul className={styles.projects}>{projects}</ul>
+        </main>
+        <Footer type="footer" />
+      </div>
+    );
   }
-
-  return (
-    <div className="whitePageWrapper">
-      <Header type="header" />
-      <main className="content">
-        <div className="searchbar">
-          <img src="/search.png" alt="searchpic" />
-          <input type="text" placeholder="Search for Projects..." />
-        </div>
-        <div className={styles.projectsHeader}>
-          <h1>All Projects</h1>
-          {addProjectButton}
-        </div>
-        <ul className={styles.projects}>{projects}</ul>
-      </main>
-      <Footer type="footer" />
-    </div>
-  );
 }

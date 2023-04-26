@@ -295,7 +295,9 @@ const Task = () => {
                 {/* <p className={styles.projectSubinfo}>
                   Stage Start Date: 1/01/2023 | Project Start Date: 1/01/2023
                 </p> */}
+                <div style={{ display:'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Link href={`/project/${projectId}`}>Go Back to Project </Link>
+                </div>
                 <h1>Subtasks</h1>
                 <div className="tasklist" id="activetasklist">
                   {subtaskContent}

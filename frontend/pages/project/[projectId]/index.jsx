@@ -5,7 +5,7 @@ import { Card, Text, Link } from "@nextui-org/react";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 import { initializeApp } from "firebase/app";
-import styles from "@styles/ProjectIndex.module.css"
+import styles from "@styles/ProjectIndex.module.css";
 import {
   getFirestore,
   collection,
@@ -81,11 +81,10 @@ const Project = () => {
             q2 = query(
               collection(db, "Tasks"),
               where("TaskID", "in", dataArray[0].Tasks)
-            )
+            );
           } catch (e) {
-            console.log("no tasks found")
+            console.log("no tasks found");
           }
-
 
           let querySnapshot2;
           let taskDataArray = [];
@@ -94,12 +93,10 @@ const Project = () => {
             querySnapshot2.forEach((doc) => {
               taskDataArray.push(doc.data());
             });
+          } catch (e) {
+            console.log("no tasks found cont.");
           }
-          catch (e) {
-            console.log("no tasks found cont.")
-          }
-          console.log(taskDataArray)
-
+          console.log(taskDataArray);
 
           project.Tasks = taskDataArray;
 
@@ -127,26 +124,27 @@ const Project = () => {
 
           if (dataArray[0].Construction_Team.includes(auth.authUser.uid)) {
             setAddTask(
-              <Link href="/createTask" onClick={async () => {
-                router.push({
-                  pathname: '/createTask',
-                  query: { data: projectId },
-                });
-              }}>
+              <Link
+                href="/createTask"
+                onClick={async () => {
+                  router.push({
+                    pathname: "/createTask",
+                    query: { data: projectId },
+                  });
+                }}
+              >
                 <img
                   src="/add.png"
                   className={styles.addPic}
                   alt="createprojectpic"
                 />
               </Link>
-            )
+            );
           } else setAddTask(<></>);
         } catch (error) {
           console.log(error);
         }
       }
-
-
 
       try {
         if (!projectData) {
@@ -182,12 +180,15 @@ const Project = () => {
   } else if (loading) {
     return <h1> Loading... </h1>;
   } else if (projectData) {
-
-    const taskElements_NotCompleted = projectData.Tasks.filter(task => task.Completion_Status == 0).map((task) => {
+    const taskElements_NotCompleted = projectData.Tasks.filter(
+      (task) => task.Completion_Status == 0
+    ).map((task) => {
       return BuildTaskCard(task);
     });
 
-    const taskElements_Completed = projectData.Tasks.filter(task => task.Completion_Status == 1).map((task) => {
+    const taskElements_Completed = projectData.Tasks.filter(
+      (task) => task.Completion_Status == 1
+    ).map((task) => {
       return BuildTaskCard(task);
     });
 
@@ -195,14 +196,18 @@ const Project = () => {
     if (taskElements_NotCompleted.length == 0) {
       taskContent_NotCompleted = "No tasks available to complete.";
     } else {
-      taskContent_NotCompleted = <ul className = {styles.taskContent}> {taskElements_NotCompleted} </ul>;
+      taskContent_NotCompleted = (
+        <ul className={styles.taskContent}> {taskElements_NotCompleted} </ul>
+      );
     }
 
-    let taskContent_Completed = null
+    let taskContent_Completed = null;
     if (taskElements_Completed.length == 0) {
       taskContent_Completed = "No tasks completed.";
     } else {
-      taskContent_Completed = <ul className = {styles.taskContent}> {taskElements_Completed} </ul>;
+      taskContent_Completed = (
+        <ul className={styles.taskContent}> {taskElements_Completed} </ul>
+      );
     }
 
     return (
@@ -217,7 +222,7 @@ const Project = () => {
             {Math.round(
               (Number(projectData.Current_Stage) /
                 Number(projectData.NumberOfStages)) *
-              100
+                100
             )}
             % done!!!{" "}
           </h2>
@@ -232,8 +237,15 @@ const Project = () => {
           <p className={styles.projectSubinfo}>
             Stage Start Date: 1/01/2023 | Project Start Date: 1/01/2023
           </p>
-          <Link href={`/projects`}>Go Back to All Projects </Link>
-          <h1>Tasks</h1>
+          <div className={styles.backToProjects}>
+            <Link href={`/projects`}>
+              Go Back to All Projects{" "}
+            </Link>
+          </div>
+          <div className={styles.tasksHeader}>
+            <h1>Tasks</h1>
+            {addTask}
+          </div>
           <div className="tasklist" id="activetasklist">
             {taskContent_NotCompleted}
           </div>
