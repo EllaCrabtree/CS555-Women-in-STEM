@@ -168,7 +168,7 @@ const Task = () => {
 	}, [auth, taskData]);
 
 	const BuildImageList = (image) => {
-		return <img src={image.Base64URL} alt="KikiMonster" />;
+		return <img src={image.Base64URL} style={{width:"100%", marginTop:"10px"}} alt="KikiMonster" />;
 	};
 
 	const completeSubtask = async (subtaskID) => {
