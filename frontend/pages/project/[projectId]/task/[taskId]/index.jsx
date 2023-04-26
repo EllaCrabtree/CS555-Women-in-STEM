@@ -181,7 +181,7 @@ const Task = () => {
         tempData.CompletionDate = taskData.CompletionDate
         tempData.Project_Name = taskData.Project_Name
         tempData.ProjectID = taskData.ProjectID
-        tempData.images = taskData.images
+        tempData.images =
         tempData.SubTasks = []
         
         let allCompleted = true;
