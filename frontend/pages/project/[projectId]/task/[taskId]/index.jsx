@@ -181,6 +181,7 @@ const Task = () => {
         tempData.CompletionDate = taskData.CompletionDate
         tempData.Project_Name = taskData.Project_Name
         tempData.ProjectID = taskData.ProjectID
+        tempData.images = taskData.images
         tempData.SubTasks = []
         
         let allCompleted = true;
@@ -335,30 +336,12 @@ const Task = () => {
           completedSubtaskContent = <ul className = {styles.taskContent}> {subtaskElements_Completed} </ul>;
         }
 
-
         return (
             <div className="whitePageWrapper">
               <Header type="header" />
               <main className="content">
                 <h1 className={styles.projectName}> {taskData.Task_name} </h1>
-                <p className = {styles.projectId}>ID: {taskData.Task_ID}</p>
-                {/* <h2 className = {styles.projectProgress}>
-                  {" "}
-                  This project is{" "}
-                  {Math.round(
-                    (Number(projectData.Current_Stage) /
-                      Number(projectData.NumberOfStages)) *
-                      100
-                  )}
-                  % done!!!{" "}
-                </h2> */}
-                {/* <h2 className={styles.projectMainName} id="project-manager-name">
-                  Manager: Default Manager Name
-                </h2>
-                <h2 className={styles.projectMainName} id="project-client-name">
-                  Client: {projectData.ProjectOwner.first_name}{" "}
-                  {projectData.ProjectOwner.last_name}
-                </h2> */}
+                <p className = {styles.projectId}>ID: {taskData.Task_ID}</p> 
                 <p className={styles.projectSubinfo}>Status: {taskData.isCompleted}</p>
                 {/* <p className={styles.projectSubinfo}>
                   Stage Start Date: 1/01/2023 | Project Start Date: 1/01/2023

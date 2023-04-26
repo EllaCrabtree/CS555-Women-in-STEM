@@ -32,11 +32,13 @@ const Project = () => {
   const [userData, setUserData] = useState();
   const [addTask, setAddTask] = useState();
   const [imageData, setImageData] = useState();
+  const [date, setDate] = useState();
 
   const auth = useAuth();
 
   useEffect(() => {
     setLoading(true);
+    checkDate();
     const app = initializeApp({
       apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
       authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -181,6 +183,23 @@ const Project = () => {
     }
   }, [auth, projectData, addTask]);
 
+  const checkDate = () => {
+    let current_date = new Date();
+
+    let newDay = current_date.getDate();
+    let newMonth = current_date.getMonth() + 1;
+    let newYear = current_date.getFullYear();
+
+    let newCurrentDate = `${newMonth}-${newDay}-${newYear}`;
+
+    if (!date || date != newCurrentDate) {
+      setDate(newCurrentDate)
+    }
+    console.log(newCurrentDate)
+  }
+
+  setInterval(checkDate, 1000*5);
+
   const handleImageChange = (img) => {
     console.log(img.target.files[0])
     const reader = new FileReader();
@@ -209,12 +228,39 @@ const Project = () => {
   }
 
   const BuildTaskCard = (task) => {
+
+
+    let dueDate = task.Due_Date.split("-")
+
+    let currentDate = date.split("-")
+
+    let overdue = false;
+    
+    if (Number(currentDate[2]) > Number(dueDate[2])) {
+      overdue = true;
+    } else if (Number(currentDate[0]) == Number(dueDate[0])) {
+      if (Number(currentDate[1]) > Number(dueDate[1])) {
+        overdue = true;
+      } else if (Number(currentDate[0]) == Number(dueDate[0])) {
+        if (Number(currentDate[1]) > Number(dueDate[1])) {
+          overdue = true;
+        }
+      }
+    }
+
+    let textColor = "black";
+    let extraText = ""
+    if (overdue) {
+      textColor = "red"
+      extraText = "LATE: "
+    }
+
     return (
       <li key={task.TaskID}>
         <Link href={`/project/${projectId}/task/${task.TaskID}`}>
           <Card isPressable isHoverable variant="bordered">
             <Card.Header>
-              <Text> {task.Title} </Text>
+              <Text color={textColor} weight="bold"> {extraText}{task.Title} </Text>
             </Card.Header>
             <Card.Body>
               <Text> {task.Description} </Text>
