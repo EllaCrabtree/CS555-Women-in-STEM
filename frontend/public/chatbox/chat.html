@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width,
+                   initial-scale=1.0"
+        />
+        <title>Amaterasu</title>
+        <link rel="icon" type="image/png" href="../.ASSETS/logo.png" />
+        <link rel="stylesheet" href="/chatbox/style.css" />
+    </head>
+
+    <body>
+        <div class="top-tab">
+            <div class="id-container">
+                <a href="../messagespage/messages.html"
+                    ><img
+                        src="../.ASSETS/back.png"
+                        id="backimg"
+                        alt="back-icon"
+                        class="backbutton"
+                /></a>
+                <img
+                    src="../.ASSETS/defProfilePic.png"
+                    class="profile-pic"
+                    alt="profilepic"
+                />
+                <div class="id-info">
+                    <h2 id="id-info-name">Default Name</h2>
+                </div>
+            </div>
+        </div>
+        <pre id="messages" class="messages"></pre>
+        <input
+            type="text"
+            class="textbox"
+            id="messageBox"
+            placeholder="Type your message here"
+            style="display: block; margin-bottom: 10px; padding: 10px"
+        />
+        <button
+            class="sendbutton"
+            id="send"
+            title="Send Message!"
+            style="width: 100%; height: 30px"
+        >
+            Send Message
+        </button>
+
+        <div class="bottom-tab">
+            <div class="project-btn">
+                <a href="../homePage/home.html"
+                    ><img
+                        src="../.ASSETS/home.png"
+                        id="homeimg"
+                        alt="proj-icon"
+                /></a>
+            </div>
+            <div class="tasks-btn">
+                <a href="../taskspage/tasks.html"
+                    ><img
+                        src="../.ASSETS/calendar.png"
+                        id="taskimg"
+                        alt="tasks-icon"
+                /></a>
+            </div>
+            <div class="messages-btn">
+                <img
+                    src="../.ASSETS/chat.png"
+                    id="mesimg"
+                    alt="messages-icon"
+                />
+                <p>Messages</p>
+            </div>
+            <div class="profile-btn">
+                <a href="../profilepage/profile.html"
+                    ><img
+                        src="../.ASSETS/profile.png"
+                        id="profimg"
+                        alt="setting-icon"
+                /></a>
+            </div>
+        </div>
+
+        <script src="chat.js"></script>
+    </body>
+</html>
