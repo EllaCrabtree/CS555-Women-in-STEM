@@ -25,12 +25,12 @@
 }
 
 .projectId {
-    text-align: center;
+  text-align: center;
 }
 
 .projectProgress {
-    text-align: center;
-    font-size: 16px;
+  text-align: center;
+  font-size: 16px;
 }
 
 .projectSubinfo {
@@ -47,9 +47,15 @@
 }
 
 .tasksHeader {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+}
+
+.backToProjects {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -59,7 +65,7 @@
 }
 
 .taskContent {
-    list-style: none;
+  list-style: none;
 }
 
 .boxtabContainer {
