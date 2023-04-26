@@ -1,7 +1,7 @@
 import { useAuth } from "@contexts/authUserContext";
 import { useEffect, useState } from "react";
 // import Link from 'next/link';
-import { Card, Text, Link } from "@nextui-org/react";
+import { Card, Text, Link, Button } from "@nextui-org/react";
 import { initializeApp } from "firebase/app";
 import {
 	getFirestore,
@@ -142,6 +142,13 @@ export default function Projects() {
 			if (!spanish) {
 				return (
 					<div>
+						<Button
+							onPress={() => {
+								setSpanish(true);
+							}}
+						>
+							Cambiar a Español
+						</Button>
 						<h1>All Projects</h1>
 
 						<ul>{cardElements}</ul>
@@ -150,6 +157,13 @@ export default function Projects() {
 			} else {
 				return (
 					<div>
+						<Button
+							onPress={() => {
+								setSpanish(false);
+							}}
+						>
+							Switch to English
+						</Button>
 						<h1>Todos los proyectos</h1>
 
 						<ul>{cardElements}</ul>

@@ -4,6 +4,7 @@ import { db } from "@libs/firebase.mjs";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 import { useRouter } from "next/router";
+import { Button } from "@nextui-org/react";
 
 const Profile = () => {
 	const [user, setUser] = useState(null);
@@ -43,6 +44,13 @@ const Profile = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(true);
+						}}
+					>
+						Cambiar a Español
+					</Button>
 					<h1>
 						{user.first_name} {user.last_name}&apos;s Profile
 					</h1>
@@ -59,6 +67,13 @@ const Profile = () => {
 			<div className="whitePageWrapper">
 				<Header type="header" />
 				<main className="content">
+					<Button
+						onPress={() => {
+							setSpanish(false);
+						}}
+					>
+						Switch to English
+					</Button>
 					<h1>
 						Perfil de {user.first_name} {user.last_name}
 					</h1>
