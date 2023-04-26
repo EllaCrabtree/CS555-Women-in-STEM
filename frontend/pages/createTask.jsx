@@ -16,6 +16,7 @@ export default function Createtask() {
 	const projectId = data;
 	const auth = useAuth();
 	const [user, setUser] = useState(null);
+	const [spanish, setSpanish] = useState(false);
 	let form;
 	useEffect(() => {
 		if (!auth.authUser) {

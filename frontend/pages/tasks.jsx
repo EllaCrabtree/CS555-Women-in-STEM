@@ -11,6 +11,7 @@ export default function Dashboard() {
 	// Check if the user isn't logged in
 	// If the user isn't logged in, redirect to the home page
 	const auth = useAuth();
+	const [spanish, setSpanish] = useState(false);
 	useEffect(() => {
 		if (!auth.authUser) {
 			Router.push("/");
