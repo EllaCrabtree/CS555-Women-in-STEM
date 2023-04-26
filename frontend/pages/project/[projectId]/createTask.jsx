@@ -144,6 +144,7 @@ import {
   where,
   or,
 } from "firebase/firestore";
+
 import { db } from "@libs/firebase.mjs";
 function getCurrentDate() {
   const today = new Date();
@@ -154,7 +155,8 @@ function getCurrentDate() {
   const currentDate = `${day}-${month}-${year}`;
   return currentDate;
 }
-const createTask = () => {
+
+const CreateTask = () => {
   const router = useRouter();
   const { projectId } = router.query;
   const [projectData, setProjectData] = useState();
@@ -179,7 +181,7 @@ const createTask = () => {
             where("UserUUID", "==", uuid)
           );
           const querySnapshot_user = await getDocs(userQuery);
-          
+
           let queryResult = [];
           querySnapshot_user.forEach((doc) => {
             queryResult.push(doc.data());
@@ -283,9 +285,9 @@ const createTask = () => {
             <label htmlFor="taskName">Task Name</label>
             <input type="text" name="taskName" id="taskName" />
             <label htmlFor="taskDescription">Task Description</label>
-            <input type="text" name="taskDescription" id="taskDescription"/>
+            <input type="text" name="taskDescription" id="taskDescription" />
             <label htmlFor="dueDate">Due Date</label>
-            <input type="text" name="dueDate" id="dueDate"/>
+            <input type="text" name="dueDate" id="dueDate" />
             <button
               style={{
                 marginTop: "1rem",
@@ -300,47 +302,47 @@ const createTask = () => {
                 //const taskName="TestTast";//test purposes
                 //const taskDescription="Does this work?"; //purposes
                 try {
-                    let task,project ; 
-                    
-                    task = await addDoc(collection(db,"Tasks"), {
-                        Title:taskName,
-                        Description:taskDescription,
-                        Completion_Status:0, 
-                        Completion_Date:"N/A",
-                        creationDate: getCurrentDate(),
-                        dueDate: dueDate 
-                      })
-                      const findTaskID=query(
-                        collection(db, "Tasks"),
-                        where("Description", "==", taskDescription)
-                      );
-                      const querySnapshot_taskId = await getDocs(findTaskID);
-                      let queryResult_ID = [];
-                      let newTaskID = null
-                      querySnapshot_taskId.forEach((docID) => {
-                        newTaskID = docID.id
-                        queryResult_ID.push(docID.data());
-                      });
-                      console.log(queryResult_ID[0])
-                    console.log(projectData.Tasks);  
-                    const ref= doc(db, "Projects", projectId)     
-                    let newTasks = projectData.Tasks
-                    newTasks.push(newTaskID);        
-                    project = await updateDoc(ref, {
-                    NumberOfStages:projectData.NumberOfStages+1,
-                    Tasks: newTasks
-                    
+                  let task, project;
+
+                  task = await addDoc(collection(db, "Tasks"), {
+                    Title: taskName,
+                    Description: taskDescription,
+                    Completion_Status: 0,
+                    Completion_Date: "N/A",
+                    creationDate: getCurrentDate(),
+                    dueDate: dueDate
                   })
-                  const taskRef=doc(db,"Tasks",newTaskID);
-                  let taskidupdate =await updateDoc(ref,
+                  const findTaskID = query(
+                    collection(db, "Tasks"),
+                    where("Description", "==", taskDescription)
+                  );
+                  const querySnapshot_taskId = await getDocs(findTaskID);
+                  let queryResult_ID = [];
+                  let newTaskID = null
+                  querySnapshot_taskId.forEach((docID) => {
+                    newTaskID = docID.id
+                    queryResult_ID.push(docID.data());
+                  });
+                  console.log(queryResult_ID[0])
+                  console.log(projectData.Tasks);
+                  const ref = doc(db, "Projects", projectId)
+                  let newTasks = projectData.Tasks
+                  newTasks.push(newTaskID);
+                  project = await updateDoc(ref, {
+                    NumberOfStages: projectData.NumberOfStages + 1,
+                    Tasks: newTasks
+
+                  })
+                  const taskRef = doc(db, "Tasks", newTaskID);
+                  let taskidupdate = await updateDoc(ref,
                     {
-                      TaskID:newTaskID
+                      TaskID: newTaskID
                     })
- 
+
                   console.log(task);
                   console.log(project);
-                  setTimeout(()=>{},10000);
-                  
+                  setTimeout(() => { }, 10000);
+
                   router.push(`/dashboard`);
                 } catch (error) {
                   throw `Project failed to add to database! Message: ${error}`
@@ -352,15 +354,16 @@ const createTask = () => {
           </form>
         </>
       );
-  };
-  form = getForm();
-  return (
-    <div className="whitePageWrapper">
-      <Header type="header" />
-      <div className="content">{form}</div>
-      <Footer type="footer" />
-    </div>
-  );
-}
-  };
-  export default createTask;
+    };
+    form = getForm();
+    return (
+      <div className="whitePageWrapper">
+        <Header type="header" />
+        <div className="content">{form}</div>
+        <Footer type="footer" />
+      </div>
+    );
+  }
+};
+
+export default CreateTask;
