@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Router from "next/router";
 // import { Image } from "next/image";
 
@@ -11,7 +11,7 @@ const Messages = () => {
         <div className="whitePageWrapper">
             <Header type="header" />
             <main className="content">
-                <div class="searchbar">
+                <div className="searchbar">
                     <img src="/search.png" alt="searchpic" />
                     <input type="text" placeholder="Search messages..." />
                 </div>

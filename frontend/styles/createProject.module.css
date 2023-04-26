@@ -1,0 +1,8 @@
+.createProjectForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.createProjectForm textarea {
+    resize: none;
+}
