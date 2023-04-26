@@ -252,9 +252,6 @@ const Task = () => {
           setImageError(true)
         }
       }
-    
- 
-
       const BuildSubTaskCard = (subtask) => {
 
         let buttonText = null
