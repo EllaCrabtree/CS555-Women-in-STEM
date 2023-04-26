@@ -17,6 +17,9 @@ import {
   or,
 } from "firebase/firestore";
 
+// import { getStorage, ref, uploadString } from "firebase/storage";
+
+
 const Project = () => {
   const router = useRouter();
   const { projectId } = router.query;
@@ -25,8 +28,10 @@ const Project = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [db, setDB] = useState();
+  const [storage, setStorage] = useState();
   const [userData, setUserData] = useState();
   const [addTask, setAddTask] = useState();
+  const [imageData, setImageData] = useState();
 
   const auth = useAuth();
 
@@ -119,6 +124,22 @@ const Project = () => {
             last_name: tempPeopleArray[0].last_name,
           };
 
+          const q4 = query(
+            collection(db, "Images"),
+            where("ProjectID", "==", projectId)
+          );
+          const querySnapshot4 = await getDocs(q4);
+
+          let imageArray = [];
+          querySnapshot4.forEach((doc) => {
+            imageArray.push(doc.data());
+          });
+
+          project.images = imageArray;
+
+          // setImageList(imageArray)
+
+
           // console.log(project)
 
           // console.log(taskDataArray)
@@ -160,6 +181,33 @@ const Project = () => {
     }
   }, [auth, projectData, addTask]);
 
+  const handleImageChange = (img) => {
+    console.log(img.target.files[0])
+    const reader = new FileReader();
+    reader.readAsDataURL(img.target.files[0]);
+
+    reader.onloadend = () => {
+        // console.log('hi')
+        // console.log(reader.result)
+        setImageData({'img': reader.result});
+    }
+  }
+
+  const UploadImage = async () => {
+    
+    const image = {
+      ProjectID: projectId,
+      Base64URL: imageData.img
+    }
+
+    try {
+      let imageResult = await addDoc(collection(db, "Images"), image);
+      console.log(imageResult)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const BuildTaskCard = (task) => {
     return (
       <li key={task.TaskID}>
@@ -177,6 +225,10 @@ const Project = () => {
     );
   };
 
+  const BuildImageList = (image) => {
+    return(<img src={image.Base64URL} alt="KikiMonster" />)
+  }
+
   if (error) {
     return <h1> Error Ocurred </h1>;
   } else if (loading) {
@@ -191,6 +243,10 @@ const Project = () => {
       return BuildTaskCard(task);
     });
 
+    const imageElements = projectData.images.map((img) => {
+      return BuildImageList(img);
+    })
+
     let taskContent_NotCompleted = null;
     if (taskElements_NotCompleted.length == 0) {
       taskContent_NotCompleted = "No tasks available to complete.";
@@ -203,6 +259,13 @@ const Project = () => {
       taskContent_Completed = "No tasks completed.";
     } else {
       taskContent_Completed = <ul className = {styles.taskContent}> {taskElements_Completed} </ul>;
+    }
+
+    let imageContent = null
+    if (imageElements.length == 0) {
+      imageContent = "No Images for this Project"
+    } else {
+      imageContent = <ul> {imageElements} </ul>
     }
 
     return (
@@ -250,7 +313,7 @@ const Project = () => {
             />
             <p className={styles.boxtabLabel} id="photoslabel">
               Photos
-            </p>
+            </p>  
             <div className={styles.boxtabArrowContainer}>
               <img
                 className="boxtab-arrow"
@@ -259,6 +322,19 @@ const Project = () => {
               />
             </div>
           </div>
+          {imageContent}
+          {/* <label>
+                Choose a photo to upload
+            </label>
+            <input 
+                onChange={(e) => handleImageChange(e)}
+                type="file" 
+                id="img" 
+                name="img" 
+                accept="image/*"
+                encType="multipart/form-data" />
+            
+            <button onClick={UploadImage}>Upload Image</button> */}
           <div className={styles.boxtabContainer} id="membercount-container">
             <img
               className={styles.boxtabIcon}
